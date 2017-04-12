@@ -1,11 +1,11 @@
-CREATE TABLE test.users
+CREATE TABLE android.users
 (
     id_user SERIAL PRIMARY KEY,
     pseudo character(30),
     password character(30)
 );
 
-CREATE TABLE test.profiles
+CREATE TABLE android.profiles
 (
     firstname character(30),
     lastname character(30),
@@ -25,7 +25,8 @@ CREATE TABLE android.places
 (
     id_place SERIAL PRIMARY KEY,
     name_place character(30),
-    coordinates geometry,
+    area geometry,
+	walls geometry,
     building_id integer,
     FOREIGN KEY (building_id) REFERENCES android.buildings(id_building)
 );
