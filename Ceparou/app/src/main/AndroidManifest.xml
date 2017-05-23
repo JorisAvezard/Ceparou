@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.jorisgmail.avezard.cparo">
+
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="com.indooratlas.android.sdk.API_KEY"
+            android:value="76509f8d-2671-437c-823c-396f5757b458"/>
+        <meta-data
+            android:name="com.indooratlas.android.sdk.API_SECRET"
+            android:value="qJsuesn81I4j7R07xlW3t04Fi7jZfL18yzo0Lwj2W2gb/U9KQCNwqXBJ1iI90lrJNMeUiAwMbRi6rCIFeNI7RPcSTcvCLNdW8Qnlm1KsYT5duMEvktzk2dd4+5pOlg=="/>
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyAkwumDgnwODlC2nc9oqj-2_Oj4cP6nodY"/>
+
+        <service
+            android:name="com.indooratlas.android.sdk.IALocationService"
+            android:label="IALocationService"
+            android:exported="false"></service>
+
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".MapsActivity" />
+        <activity android:name=".MapsOverlayActivity" />
+        <activity android:name=".LatLngActivity" />
+        <activity android:name=".FloorPlanActivity" />
+    </application>
+
+</manifest>
