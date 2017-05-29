@@ -1,7 +1,8 @@
-package metier.entities;
+package test;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ExecuteQuery {
@@ -9,7 +10,7 @@ public class ExecuteQuery {
 	/*
 	 * INSERT
 	 */
-	private static void persistUsers(Users user) {
+	public static void insertUsers(Users user) {
 		try {
 			String insertUsersQuery = "INSERT INTO users (id_user, pseudo, password) VALUES (?,?,?)";
 			
@@ -25,25 +26,10 @@ public class ExecuteQuery {
 			preparedStatement.close();
 		} catch(SQLException se) {
 			System.err.println(se.getMessage());
-		}finally {
-	        messages.add( "Fermeture de l'objet Statement." );
-	        if ( preparedStatement != null ) {
-	            try {
-	            	preparedStatement.close();
-	            } catch ( SQLException ignore ) {
-	            }
-	        }
-	        messages.add( "Fermeture de l'objet Connection." );
-	        if ( dbConnection != null ) {
-	            try {
-	            	dbConnection.close();
-	            } catch ( SQLException ignore ) {
-	            }
-	        }
-	    }
+		}
 	}
 	
-	private static void persistProfiles(Profiles profile) {
+	public static void insertProfiles(Profiles profile) {
 		try {
 			String insertProfilesQuery = "INSERT INTO profiles (firstname, lastname, email, user_id) VALUES (?,?,?,?)";
 			
@@ -60,25 +46,10 @@ public class ExecuteQuery {
 			preparedStatement.close();
 		} catch(SQLException se) {
 			System.err.println(se.getMessage());
-		}finally {
-	        messages.add( "Fermeture de l'objet Statement." );
-	        if ( preparedStatement != null ) {
-	            try {
-	            	preparedStatement.close();
-	            } catch ( SQLException ignore ) {
-	            }
-	        }
-	        messages.add( "Fermeture de l'objet Connection." );
-	        if ( dbConnection != null ) {
-	            try {
-	            	dbConnection.close();
-	            } catch ( SQLException ignore ) {
-	            }
-	        }
-	    }
+		}
 	}
 	
-	private static void persistBuildings(Buildings building) {
+	public static void insertBuildings(Buildings building) {
 		try {
 			String insertBuildingsQuery = "INSERT INTO buildings (id_building, name_main, name_specific) VALUES (?,?,?)";
 			
@@ -94,25 +65,10 @@ public class ExecuteQuery {
 			preparedStatement.close();
 		} catch(SQLException se) {
 			System.err.println(se.getMessage());
-		}finally {
-	        messages.add( "Fermeture de l'objet Statement." );
-	        if ( preparedStatement != null ) {
-	            try {
-	            	preparedStatement.close();
-	            } catch ( SQLException ignore ) {
-	            }
-	        }
-	        messages.add( "Fermeture de l'objet Connection." );
-	        if ( dbConnection != null ) {
-	            try {
-	            	dbConnection.close();
-	            } catch ( SQLException ignore ) {
-	            }
-	        }
-	    }
+		}
 	}
 	
-	private static void persistPlaces(Places place) {
+	public static void insertPlaces(Places place) {
 		try {
 			String insertPlacesQuery = "INSERT INTO places (id_place, name_place, area, walls, building_id) VALUES (?,?,?,?,?)";
 			
@@ -130,25 +86,10 @@ public class ExecuteQuery {
 			preparedStatement.close();
 		} catch(SQLException se) {
 			System.err.println(se.getMessage());
-		}finally {
-	        messages.add( "Fermeture de l'objet Statement." );
-	        if ( preparedStatement != null ) {
-	            try {
-	            	preparedStatement.close();
-	            } catch ( SQLException ignore ) {
-	            }
-	        }
-	        messages.add( "Fermeture de l'objet Connection." );
-	        if ( dbConnection != null ) {
-	            try {
-	            	dbConnection.close();
-	            } catch ( SQLException ignore ) {
-	            }
-	        }
-	    }
+		}
 	}
 	
-	private static void persistPaths(Paths path) {
+	public static void insertPaths(Paths path) {
 		try {
 			String insertPathsQuery = "INSERT INTO paths (id_path, coordinates, date_time, user_id, building_id) VALUES (?,?,?,?,?)";
 			
@@ -166,28 +107,13 @@ public class ExecuteQuery {
 			preparedStatement.close();
 		} catch(SQLException se) {
 			System.err.println(se.getMessage());
-		}finally {
-	        messages.add( "Fermeture de l'objet Statement." );
-	        if ( preparedStatement != null ) {
-	            try {
-	            	preparedStatement.close();
-	            } catch ( SQLException ignore ) {
-	            }
-	        }
-	        messages.add( "Fermeture de l'objet Connection." );
-	        if ( dbConnection != null ) {
-	            try {
-	            	dbConnection.close();
-	            } catch ( SQLException ignore ) {
-	            }
-	        }
-	    }
+		}
 	}
 	
 	/*
 	 * UPDATE
 	 */
-	private static void updateUsers(Users user,String new_password) {
+	public static void updateUsers(Users user,String new_password) {
 		try {
 			String updateUsersQuery = "UPDATE users SET password = '?' WHERE id_user = '?' ";
 			
@@ -202,25 +128,10 @@ public class ExecuteQuery {
 			preparedStatement.close();
 		} catch(SQLException se) {
 			System.err.println(se.getMessage());
-		}finally {
-	        messages.add( "Fermeture de l'objet Statement." );
-	        if ( preparedStatement != null ) {
-	            try {
-	            	preparedStatement.close();
-	            } catch ( SQLException ignore ) {
-	            }
-	        }
-	        messages.add( "Fermeture de l'objet Connection." );
-	        if ( dbConnection != null ) {
-	            try {
-	            	dbConnection.close();
-	            } catch ( SQLException ignore ) {
-	            }
-	        }
-	    }
+		}
 	}
 	
-	private static void updateProfiles(Profiles profile,String new_email) {
+	public static void updateProfiles(Profiles profile,String new_email) {
 		try {
 			String updateProfilesQuery = "UPDATE profiles SET email = '?' WHERE user_id = '?' ";
 			
@@ -228,164 +139,99 @@ public class ExecuteQuery {
 			PreparedStatement preparedStatement = dbConnection.prepareStatement(updateProfilesQuery);
 			
 			preparedStatement.setString(1, new_email);
-			preparedStatement.setString(2, user.getUser_id());
+			preparedStatement.setString(2, profile.getUser_id());
 			
 			preparedStatement.executeUpdate();
 			
 			preparedStatement.close();
 		} catch(SQLException se) {
 			System.err.println(se.getMessage());
-		}finally {
-	        messages.add( "Fermeture de l'objet Statement." );
-	        if ( preparedStatement != null ) {
-	            try {
-	            	preparedStatement.close();
-	            } catch ( SQLException ignore ) {
-	            }
-	        }
-	        messages.add( "Fermeture de l'objet Connection." );
-	        if ( dbConnection != null ) {
-	            try {
-	            	dbConnection.close();
-	            } catch ( SQLException ignore ) {
-	            }
-	        }
-	    }
+		}
 	}
 	
 	/*
 	 * DELETE
 	 */
-	private static void deleteProfiles(Profiles profile) {	/*CREER UN BOUTON 'EFFACER SON COMPTE' POUR PROPOSER CA ??*/
+	public static void deleteProfiles(Profiles profile) {	/*CREER UN BOUTON 'EFFACER SON COMPTE' POUR PROPOSER CA ??*/
 		try {
 			String deleteProfilesQuery = "DELETE FROM 'profiles' WHERE 'user_id' = ?";
 			
 			Connection dbConnection = Connection_DB.getConnection();
 			PreparedStatement preparedStatement = dbConnection.prepareStatement(deleteProfilesQuery);
 			
-			preparedStatement.setString(1, /*RECUPERER L ID DE LA SESSION EN COURS*/);
+			preparedStatement.setString(1, profile.getUser_id());
 			
 			preparedStatement.executeUpdate();
 			
 			preparedStatement.close();
 		} catch(SQLException se) {
 			System.err.println(se.getMessage());
-		}finally {
-	        messages.add( "Fermeture de l'objet Statement." );
-	        if ( preparedStatement != null ) {
-	            try {
-	            	preparedStatement.close();
-	            } catch ( SQLException ignore ) {
-	            }
-	        }
-	        messages.add( "Fermeture de l'objet Connection." );
-	        if ( dbConnection != null ) {
-	            try {
-	            	dbConnection.close();
-	            } catch ( SQLException ignore ) {
-	            }
-	        }
-	    }
+		}
 	}
 	
-	private static void deleteUsers(Users user) {	/*CREER UN BOUTON 'EFFACER SON COMPTE' POUR PROPOSER CA ??*/
+	public static void deleteUsers(Users user) {	/*CREER UN BOUTON 'EFFACER SON COMPTE' POUR PROPOSER CA ??*/
 		try {
 			String deleteUsersQuery = "DELETE FROM 'users' WHERE 'id_user' = ?";
 			
 			Connection dbConnection = Connection_DB.getConnection();
 			PreparedStatement preparedStatement = dbConnection.prepareStatement(deleteUsersQuery);
 			
-			preparedStatement.setString(1, /*RECUPERER L ID DE LA SESSION EN COURS*/);
+			preparedStatement.setString(1, user.getId_user());
 			
 			preparedStatement.executeUpdate();
 			
 			preparedStatement.close();
 		} catch(SQLException se) {
 			System.err.println(se.getMessage());
-		}finally {
-	        messages.add( "Fermeture de l'objet Statement." );
-	        if ( preparedStatement != null ) {
-	            try {
-	            	preparedStatement.close();
-	            } catch ( SQLException ignore ) {
-	            }
-	        }
-	        messages.add( "Fermeture de l'objet Connection." );
-	        if ( dbConnection != null ) {
-	            try {
-	            	dbConnection.close();
-	            } catch ( SQLException ignore ) {
-	            }
-	        }
-	    }
+		}
 	}
 	
-	private static void deletePaths(Paths path) {	/*CREER UN BOUTON 'EFFACER SON COMPTE' POUR PROPOSER CA ??*/
+	public static void deletePaths(Paths path) {	/*CREER UN BOUTON 'EFFACER SON COMPTE' POUR PROPOSER CA ??*/
 		try {
 			String deletePathsQuery = "DELETE FROM 'paths' WHERE 'user_id' = ?";
 			
 			Connection dbConnection = Connection_DB.getConnection();
 			PreparedStatement preparedStatement = dbConnection.prepareStatement(deletePathsQuery);
 			
-			preparedStatement.setString(1, /*RECUPERER L ID DE LA SESSION EN COURS*/);
+			preparedStatement.setString(1, path.getId_path());
 			
 			preparedStatement.executeUpdate();
 			
 			preparedStatement.close();
 		} catch(SQLException se) {
 			System.err.println(se.getMessage());
-		}finally {
-	        messages.add( "Fermeture de l'objet Statement." );
-	        if ( preparedStatement != null ) {
-	            try {
-	            	preparedStatement.close();
-	            } catch ( SQLException ignore ) {
-	            }
-	        }
-	        messages.add( "Fermeture de l'objet Connection." );
-	        if ( dbConnection != null ) {
-	            try {
-	            	dbConnection.close();
-	            } catch ( SQLException ignore ) {
-	            }
-	        }
-	    }
+		}
 	}
 	
 	/*
 	 * SELECT
 	 */
-	private static Users selectUsers(Users user) {
-		Users user = new Users();
+	public static Profiles selectProfiles(Profiles profile) {
+		Profiles read_profile = new Profiles();
 		try {
-			String selectUsersQuery = "SELECT FROM 'users' WHERE 'user_id' = ?";
+			String selectProfilesQuery = "SELECT email FROM profiles AS p WHERE p.user_id = ?";
 			
 			Connection dbConnection = Connection_DB.getConnection();
-			PreparedStatement preparedStatement = dbConnection.prepareStatement(selectPathsQuery);
+			PreparedStatement preparedStatement = dbConnection.prepareStatement(selectProfilesQuery);
 			
-			preparedStatement.setString(1, /*???*/ );
+			preparedStatement.setString(1, profile.getUser_id());
 			
-			preparedStatement.executeUpdate();
+			ResultSet result = preparedStatement.executeQuery();
+			
+			while (result.next()) {
+				
+				read_profile.setFirstname(result.getString("firstname"));
+				read_profile.setLastname((result.getString("lastname")));
+				read_profile.setEmail(result.getString("email"));
+				read_profile.setUser_id(result.getString("user_id"));
+				
+			}
 			
 			preparedStatement.close();
 		} catch(SQLException se) {
 			System.err.println(se.getMessage());
-		}finally {
-	        messages.add( "Fermeture de l'objet Statement." );
-	        if ( preparedStatement != null ) {
-	            try {
-	            	preparedStatement.close();
-	            } catch ( SQLException ignore ) {
-	            }
-	        }
-	        messages.add( "Fermeture de l'objet Connection." );
-	        if ( dbConnection != null ) {
-	            try {
-	            	dbConnection.close();
-	            } catch ( SQLException ignore ) {
-	            }
-	        }
-	    }
+		}
+		return read_profile;
 	}
 	
 }
