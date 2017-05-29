@@ -5,11 +5,11 @@ import java.sql.DriverManager;
 
 public class Connection_DB {
 	
-	private static String host = "localhost";
-	private static String base = "sample";
-	private static String user = "root";
-	private static String password = "";
-	private static String url = "jdbc:mysql://" + host + "/" + base;
+	private static String host = "localhost:5432";
+	private static String base = "test";
+	private static String user = "postgres";
+	private static String password = "010395";
+	private static String url = "jdbc:postgresql://" + host + "/" + base;
 
 	/**
 	 * Singleton instance.
