@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.groov.ceparou">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/logo_fond_blanc"
+        android:label="Céparoù"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".ConnexionActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".MoteurActivity"/>
+        <activity android:name=".OublisActivity"/>
+        <activity android:name=".InscriptionActivity"/>
+        <activity android:name=".ParametresActivity"/>
+        <activity android:name=".ModificationMailActivity"/>
+        <activity android:name=".ModificationNumActivity"/>
+        <activity android:name=".ModificationMdpActivity"/>
+        <activity android:name=".PopOublisActivity"
+            android:theme="@style/AppTheme.CustomTheme">
+        </activity>
+        <activity android:name=".PopInscriptionActivity"
+            android:theme="@style/AppTheme.CustomTheme">
+        </activity>
+        <activity android:name=".PopInscriptionEchecNumActivity"
+            android:theme="@style/AppTheme.CustomTheme">
+        </activity>
+        <activity android:name=".PopInscriptionEchecMailActivity"
+            android:theme="@style/AppTheme.CustomTheme">
+        </activity>
+        <activity android:name=".PopInscriptionEchecIDActivity"
+            android:theme="@style/AppTheme.CustomTheme">
+        </activity>
+        <activity android:name=".PopInscriptionEchecMDPActivity"
+            android:theme="@style/AppTheme.CustomTheme">
+        </activity>
+        <activity android:name=".PopConnexionActivity"
+            android:theme="@style/AppTheme.CustomTheme">
+        </activity>
+    </application>
+
+</manifest>
