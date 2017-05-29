@@ -1,4 +1,4 @@
-package test;
+package metier.entities;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,7 +10,7 @@ public class ExecuteQuery {
 	/*
 	 * INSERT
 	 */
-	public static void insertUsers(Users user) {
+	public static void insertUser(User user) {
 		try {
 			String insertUsersQuery = "INSERT INTO users (id_user, pseudo, password) VALUES (?,?,?)";
 			
@@ -29,7 +29,7 @@ public class ExecuteQuery {
 		}
 	}
 	
-	public static void insertProfiles(Profiles profile) {
+	public static void insertProfile(Profile profile) {
 		try {
 			String insertProfilesQuery = "INSERT INTO profiles (firstname, lastname, email, user_id) VALUES (?,?,?,?)";
 			
@@ -49,7 +49,7 @@ public class ExecuteQuery {
 		}
 	}
 	
-	public static void insertBuildings(Buildings building) {
+	public static void insertBuilding(Building building) {
 		try {
 			String insertBuildingsQuery = "INSERT INTO buildings (id_building, name_main, name_specific) VALUES (?,?,?)";
 			
@@ -68,7 +68,7 @@ public class ExecuteQuery {
 		}
 	}
 	
-	public static void insertPlaces(Places place) {
+	public static void insertPlace(Place place) {
 		try {
 			String insertPlacesQuery = "INSERT INTO places (id_place, name_place, area, walls, building_id) VALUES (?,?,?,?,?)";
 			
@@ -89,7 +89,7 @@ public class ExecuteQuery {
 		}
 	}
 	
-	public static void insertPaths(Paths path) {
+	public static void insertPath(Way path) {
 		try {
 			String insertPathsQuery = "INSERT INTO paths (id_path, coordinates, date_time, user_id, building_id) VALUES (?,?,?,?,?)";
 			
@@ -113,7 +113,7 @@ public class ExecuteQuery {
 	/*
 	 * UPDATE
 	 */
-	public static void updateUsers(Users user,String new_password) {
+	public static void updateUser(User user,String new_password) {
 		try {
 			String updateUsersQuery = "UPDATE users SET password = '?' WHERE id_user = '?' ";
 			
@@ -131,7 +131,7 @@ public class ExecuteQuery {
 		}
 	}
 	
-	public static void updateProfiles(Profiles profile,String new_email) {
+	public static void updateProfile(Profile profile,String new_email) {
 		try {
 			String updateProfilesQuery = "UPDATE profiles SET email = '?' WHERE user_id = '?' ";
 			
@@ -152,7 +152,7 @@ public class ExecuteQuery {
 	/*
 	 * DELETE
 	 */
-	public static void deleteProfiles(Profiles profile) {	/*CREER UN BOUTON 'EFFACER SON COMPTE' POUR PROPOSER CA ??*/
+	public static void deleteProfile(Profile profile) {	/*CREER UN BOUTON 'EFFACER SON COMPTE' POUR PROPOSER CA ??*/
 		try {
 			String deleteProfilesQuery = "DELETE FROM 'profiles' WHERE 'user_id' = ?";
 			
@@ -169,7 +169,7 @@ public class ExecuteQuery {
 		}
 	}
 	
-	public static void deleteUsers(Users user) {	/*CREER UN BOUTON 'EFFACER SON COMPTE' POUR PROPOSER CA ??*/
+	public static void deleteUser(User user) {	/*CREER UN BOUTON 'EFFACER SON COMPTE' POUR PROPOSER CA ??*/
 		try {
 			String deleteUsersQuery = "DELETE FROM 'users' WHERE 'id_user' = ?";
 			
@@ -186,7 +186,7 @@ public class ExecuteQuery {
 		}
 	}
 	
-	public static void deletePaths(Paths path) {	/*CREER UN BOUTON 'EFFACER SON COMPTE' POUR PROPOSER CA ??*/
+	public static void deletePath(Way path) {	/*CREER UN BOUTON 'EFFACER SON COMPTE' POUR PROPOSER CA ??*/
 		try {
 			String deletePathsQuery = "DELETE FROM 'paths' WHERE 'user_id' = ?";
 			
@@ -206,8 +206,8 @@ public class ExecuteQuery {
 	/*
 	 * SELECT
 	 */
-	public static Profiles selectProfiles(Profiles profile) {
-		Profiles read_profile = new Profiles();
+	public static Profile selectProfile(Profile profile) {
+		Profile read_profile = new Profile();
 		try {
 			String selectProfilesQuery = "SELECT email FROM profiles AS p WHERE p.user_id = ?";
 			
