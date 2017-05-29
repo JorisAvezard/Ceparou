@@ -1,0 +1,30 @@
+package metier.entities;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+
+public class Connection_DB {
+	
+	private static String host = "localhost";
+	private static String base = "sample";
+	private static String user = "root";
+	private static String password = "";
+	private static String url = "jdbc:mysql://" + host + "/" + base;
+
+	/**
+	 * Singleton instance.
+	 */
+	private static Connection connection;
+
+	public static Connection getConnection() {		
+		if (connection == null) {
+			try {
+				connection = DriverManager.getConnection(url, user, password);
+			} catch (Exception e) {
+				System.err.println("Connection failed : " + e.getMessage());			
+			}
+		}
+		return connection;
+	}
+
+}
