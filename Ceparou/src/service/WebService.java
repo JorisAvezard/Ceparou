@@ -1,6 +1,7 @@
 package service;
 
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -64,6 +65,27 @@ public class WebService {
 	public void newPath(@PathParam (value="id_user")String id_user, @PathParam (value="id_building")String id_building, @PathParam (value="id_path")String id_path, @PathParam (value="coordinate")String coordinate, @PathParam (value="date")String date) {
 		Way way = new Way(id_path, coordinate, date, id_user, id_building);
 		ExecuteQuery.insertPath(way);
+	}
+	
+	@GET
+	@Path("/updatePass/{user}/{newPassword}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public void modifyPass(@PathParam (value="user")User user, @PathParam (value="newPassword")String newPassword) {
+		ExecuteQuery.updateUser(user, newPassword);
+	}
+	
+	@GET
+	@Path("/updateMail/{profile}/{newMail}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public void modifyMail(@PathParam (value="profile")Profile profile, @PathParam (value="newMail")String newMail) {
+		ExecuteQuery.updateProfile(profile, newMail);
+	}
+
+	@POST
+	@Path("/selectMail/{profile}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String findMail(@PathParam (value="profile")Profile profile) {
+		return ExecuteQuery.selectProfile(profile);
 	}
 	
 }

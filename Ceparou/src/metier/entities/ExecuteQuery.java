@@ -206,8 +206,8 @@ public class ExecuteQuery {
 	/*
 	 * SELECT
 	 */
-	public static Profile selectProfile(Profile profile) {
-		Profile read_profile = new Profile();
+	public static String selectProfile(Profile profile) {
+		String mail = "";
 		try {
 			String selectProfilesQuery = "SELECT email FROM profiles AS p WHERE p.user_id = ?";
 			
@@ -220,10 +220,7 @@ public class ExecuteQuery {
 			
 			while (result.next()) {
 				
-				read_profile.setFirstname(result.getString("firstname"));
-				read_profile.setLastname((result.getString("lastname")));
-				read_profile.setEmail(result.getString("email"));
-				read_profile.setUser_id(result.getString("user_id"));
+				mail = result.getString("email");
 				
 			}
 			
@@ -231,7 +228,7 @@ public class ExecuteQuery {
 		} catch(SQLException se) {
 			System.err.println(se.getMessage());
 		}
-		return read_profile;
+		return mail;
 	}
 	
 }
