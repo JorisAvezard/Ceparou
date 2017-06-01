@@ -10,16 +10,15 @@ public class ExecuteQuery {
 	/*
 	 * INSERT
 	 */
-	public static void insertUser(User user) {
+	public static void insertUser(String pseudo, String password) {
 		try {
-			String insertUsersQuery = "INSERT INTO users (id_user, pseudo, password) VALUES (?,?,?)";
+			String insertUsersQuery = "INSERT INTO users (pseudo, password) VALUES (?,?)";
 			
 			Connection dbConnection = Connection_DB.getConnection();
 			PreparedStatement preparedStatement = dbConnection.prepareStatement(insertUsersQuery);
 			
-			preparedStatement.setString(1, user.getId_user());
-			preparedStatement.setString(2, user.getPseudo());
-			preparedStatement.setString(3, user.getPassword());
+			preparedStatement.setString(1, pseudo);
+			preparedStatement.setString(2, password);
 			
 			preparedStatement.executeUpdate();
 			

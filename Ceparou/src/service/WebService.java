@@ -28,11 +28,10 @@ public class WebService {
 	}
 	
 	@GET
-	@Path("/insertUser/{id}/{pseudo}/{password}")
+	@Path("/insertUser/{pseudo}/{password}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public void newUser(@PathParam (value="id")String id, @PathParam (value="pseudo")String pseudo, @PathParam (value="password")String password) {
-		User user = new User(id, pseudo, password);
-		ExecuteQuery.insertUser(user);
+	public void newUser(@PathParam (value="pseudo")String pseudo, @PathParam (value="password")String password) {
+		ExecuteQuery.insertUser(pseudo, password);
 	}
 	
 	@GET
