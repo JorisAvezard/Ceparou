@@ -19,6 +19,7 @@ import metier.entities.User;
 public class WebService {
 	
 	private Hello hello = new Hello();
+	private ExecuteQuery eq = new ExecuteQuery();
 	
 	@GET
 	@Path("/coucou/{nom}/{heure}")
@@ -31,60 +32,60 @@ public class WebService {
 	@Path("/insertUser/{pseudo}/{password}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public void newUser(@PathParam (value="pseudo")String pseudo, @PathParam (value="password")String password) {
-		ExecuteQuery.insertUser(pseudo, password);
+		eq.insertUser(pseudo, password);
 	}
 	
-	@GET
-	@Path("/insertProfile/{id}/{fname}/{lname}/{email}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public void newProfile(@PathParam (value="id")String id, @PathParam (value="fname")String firstname, @PathParam (value="lname")String lastname, @PathParam (value="email")String email) {
-		Profile profile = new Profile(firstname, lastname, email, id);
-		ExecuteQuery.insertProfile(profile);
-	}
-	
-	@GET
-	@Path("/insertBuilding/{id}/{name_main}/{name_specific}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public void newBuildings(@PathParam (value="id")String id, @PathParam (value="name_main")String name_main, @PathParam (value="name_specific")String name_specific) {
-		Building building = new Building(id, name_main, name_specific);
-		ExecuteQuery.insertBuilding(building);
-	}
-	
-	@GET
-	@Path("/insertPlace/{id_place}/{name_place}/{area}/{walls}/{building_id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public void newPlace(@PathParam (value="id_place")String id, @PathParam (value="name_place")String name, @PathParam (value="area")String area, @PathParam (value="walls")String walls, @PathParam (value="building_id")String building_id) {
-		Place place = new Place(id, name, area, walls, building_id);
-		ExecuteQuery.insertPlace(place);
-	}
-	
-	@GET
-	@Path("/insertPath/{id_user}/{id_building}/{id_path}/{coordinate}/{date}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public void newPath(@PathParam (value="id_user")String id_user, @PathParam (value="id_building")String id_building, @PathParam (value="id_path")String id_path, @PathParam (value="coordinate")String coordinate, @PathParam (value="date")String date) {
-		Way way = new Way(id_path, coordinate, date, id_user, id_building);
-		ExecuteQuery.insertPath(way);
-	}
-	
-	@GET
-	@Path("/updatePass/{user}/{newPassword}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public void modifyPass(@PathParam (value="user")User user, @PathParam (value="newPassword")String newPassword) {
-		ExecuteQuery.updateUser(user, newPassword);
-	}
-	
-	@GET
-	@Path("/updateMail/{profile}/{newMail}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public void modifyMail(@PathParam (value="profile")Profile profile, @PathParam (value="newMail")String newMail) {
-		ExecuteQuery.updateProfile(profile, newMail);
-	}
-
-	@POST
-	@Path("/selectMail/{profile}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public String findMail(@PathParam (value="profile")Profile profile) {
-		return ExecuteQuery.selectProfile(profile);
-	}
+//	@GET
+//	@Path("/insertProfile/{id}/{fname}/{lname}/{email}")
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public void newProfile(@PathParam (value="id")String id, @PathParam (value="fname")String firstname, @PathParam (value="lname")String lastname, @PathParam (value="email")String email) {
+//		Profile profile = new Profile(firstname, lastname, email, id);
+//		ExecuteQuery.insertProfile(profile);
+//	}
+//	
+//	@GET
+//	@Path("/insertBuilding/{id}/{name_main}/{name_specific}")
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public void newBuildings(@PathParam (value="id")String id, @PathParam (value="name_main")String name_main, @PathParam (value="name_specific")String name_specific) {
+//		Building building = new Building(id, name_main, name_specific);
+//		ExecuteQuery.insertBuilding(building);
+//	}
+//	
+//	@GET
+//	@Path("/insertPlace/{id_place}/{name_place}/{area}/{walls}/{building_id}")
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public void newPlace(@PathParam (value="id_place")String id, @PathParam (value="name_place")String name, @PathParam (value="area")String area, @PathParam (value="walls")String walls, @PathParam (value="building_id")String building_id) {
+//		Place place = new Place(id, name, area, walls, building_id);
+//		ExecuteQuery.insertPlace(place);
+//	}
+//	
+//	@GET
+//	@Path("/insertPath/{id_user}/{id_building}/{id_path}/{coordinate}/{date}")
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public void newPath(@PathParam (value="id_user")String id_user, @PathParam (value="id_building")String id_building, @PathParam (value="id_path")String id_path, @PathParam (value="coordinate")String coordinate, @PathParam (value="date")String date) {
+//		Way way = new Way(id_path, coordinate, date, id_user, id_building);
+//		ExecuteQuery.insertPath(way);
+//	}
+//	
+//	@GET
+//	@Path("/updatePass/{user}/{newPassword}")
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public void modifyPass(@PathParam (value="user")User user, @PathParam (value="newPassword")String newPassword) {
+//		ExecuteQuery.updateUser(user, newPassword);
+//	}
+//	
+//	@GET
+//	@Path("/updateMail/{profile}/{newMail}")
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public void modifyMail(@PathParam (value="profile")Profile profile, @PathParam (value="newMail")String newMail) {
+//		ExecuteQuery.updateProfile(profile, newMail);
+//	}
+//
+//	@POST
+//	@Path("/selectMail/{profile}")
+//	@Produces(MediaType.APPLICATION_JSON)
+//	public String findMail(@PathParam (value="profile")Profile profile) {
+//		return ExecuteQuery.selectProfile(profile);
+//	}
 	
 }
