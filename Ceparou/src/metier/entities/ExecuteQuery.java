@@ -12,7 +12,7 @@ public class ExecuteQuery {
 	 */
 	public static void insertUser(String pseudo, String password) {
 		try {
-			String insertUsersQuery = "INSERT INTO users (pseudo, password) VALUES (?,?)";
+			String insertUsersQuery = "INSERT INTO android.users (pseudo, password) VALUES (?,?)";
 			
 			Connection dbConnection = Connection_DB.getConnection();
 			PreparedStatement preparedStatement = dbConnection.prepareStatement(insertUsersQuery);
@@ -30,7 +30,7 @@ public class ExecuteQuery {
 	
 	public static void insertProfile(Profile profile) {
 		try {
-			String insertProfilesQuery = "INSERT INTO profiles (firstname, lastname, email, user_id) VALUES (?,?,?,?)";
+			String insertProfilesQuery = "INSERT INTO android.profiles (firstname, lastname, email, user_id) VALUES (?,?,?,?)";
 			
 			Connection dbConnection = Connection_DB.getConnection();
 			PreparedStatement preparedStatement = dbConnection.prepareStatement(insertProfilesQuery);
@@ -50,7 +50,7 @@ public class ExecuteQuery {
 	
 	public static void insertBuilding(Building building) {
 		try {
-			String insertBuildingsQuery = "INSERT INTO buildings (id_building, name_main, name_specific) VALUES (?,?,?)";
+			String insertBuildingsQuery = "INSERT INTO android.buildings (id_building, name_main, name_specific) VALUES (?,?,?)";
 			
 			Connection dbConnection = Connection_DB.getConnection();
 			PreparedStatement preparedStatement = dbConnection.prepareStatement(insertBuildingsQuery);
@@ -69,7 +69,7 @@ public class ExecuteQuery {
 	
 	public static void insertPlace(Place place) {
 		try {
-			String insertPlacesQuery = "INSERT INTO places (id_place, name_place, area, walls, building_id) VALUES (?,?,?,?,?)";
+			String insertPlacesQuery = "INSERT INTO android.places (id_place, name_place, area, walls, building_id) VALUES (?,?,?,?,?)";
 			
 			Connection dbConnection = Connection_DB.getConnection();
 			PreparedStatement preparedStatement = dbConnection.prepareStatement(insertPlacesQuery);
@@ -90,7 +90,7 @@ public class ExecuteQuery {
 	
 	public static void insertPath(Way path) {
 		try {
-			String insertPathsQuery = "INSERT INTO paths (id_path, coordinates, date_time, user_id, building_id) VALUES (?,?,?,?,?)";
+			String insertPathsQuery = "INSERT INTO android.paths (id_path, coordinates, date_time, user_id, building_id) VALUES (?,?,?,?,?)";
 			
 			Connection dbConnection = Connection_DB.getConnection();
 			PreparedStatement preparedStatement = dbConnection.prepareStatement(insertPathsQuery);
@@ -114,7 +114,7 @@ public class ExecuteQuery {
 	 */
 	public static void updateUser(User user,String new_password) {
 		try {
-			String updateUsersQuery = "UPDATE users SET password = '?' WHERE id_user = '?' ";
+			String updateUsersQuery = "UPDATE android.users SET password = '?' WHERE id_user = '?' ";
 			
 			Connection dbConnection = Connection_DB.getConnection();
 			PreparedStatement preparedStatement = dbConnection.prepareStatement(updateUsersQuery);
@@ -132,7 +132,7 @@ public class ExecuteQuery {
 	
 	public static void updateProfile(Profile profile,String new_email) {
 		try {
-			String updateProfilesQuery = "UPDATE profiles SET email = '?' WHERE user_id = '?' ";
+			String updateProfilesQuery = "UPDATE android.profiles SET email = '?' WHERE user_id = '?' ";
 			
 			Connection dbConnection = Connection_DB.getConnection();
 			PreparedStatement preparedStatement = dbConnection.prepareStatement(updateProfilesQuery);
@@ -153,7 +153,7 @@ public class ExecuteQuery {
 	 */
 	public static void deleteProfile(Profile profile) {	/*CREER UN BOUTON 'EFFACER SON COMPTE' POUR PROPOSER CA ??*/
 		try {
-			String deleteProfilesQuery = "DELETE FROM 'profiles' WHERE 'user_id' = ?";
+			String deleteProfilesQuery = "DELETE FROM android.profiles WHERE user_id = ?";
 			
 			Connection dbConnection = Connection_DB.getConnection();
 			PreparedStatement preparedStatement = dbConnection.prepareStatement(deleteProfilesQuery);
@@ -170,7 +170,7 @@ public class ExecuteQuery {
 	
 	public static void deleteUser(User user) {	/*CREER UN BOUTON 'EFFACER SON COMPTE' POUR PROPOSER CA ??*/
 		try {
-			String deleteUsersQuery = "DELETE FROM 'users' WHERE 'id_user' = ?";
+			String deleteUsersQuery = "DELETE FROM android.users WHERE id_user = ?";
 			
 			Connection dbConnection = Connection_DB.getConnection();
 			PreparedStatement preparedStatement = dbConnection.prepareStatement(deleteUsersQuery);
@@ -187,7 +187,7 @@ public class ExecuteQuery {
 	
 	public static void deletePath(Way path) {	/*CREER UN BOUTON 'EFFACER SON COMPTE' POUR PROPOSER CA ??*/
 		try {
-			String deletePathsQuery = "DELETE FROM 'paths' WHERE 'user_id' = ?";
+			String deletePathsQuery = "DELETE FROM android.paths WHERE user_id = ?";
 			
 			Connection dbConnection = Connection_DB.getConnection();
 			PreparedStatement preparedStatement = dbConnection.prepareStatement(deletePathsQuery);
@@ -208,7 +208,7 @@ public class ExecuteQuery {
 	public static String selectProfile(Profile profile) {
 		String mail = "";
 		try {
-			String selectProfilesQuery = "SELECT email FROM profiles AS p WHERE p.user_id = ?";
+			String selectProfilesQuery = "SELECT email FROM android.profiles AS p WHERE p.user_id = ?";
 			
 			Connection dbConnection = Connection_DB.getConnection();
 			PreparedStatement preparedStatement = dbConnection.prepareStatement(selectProfilesQuery);
