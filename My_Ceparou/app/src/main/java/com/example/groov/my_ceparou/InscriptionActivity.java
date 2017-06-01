@@ -7,10 +7,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.net.URI;
+
+import javax.ws.rs.Path;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
+
+import org.glassfish.jersey.client.ClientConfig;
+
+
 
 /**
  * Created by groov on 31/05/2017.
@@ -26,33 +35,21 @@ public class InscriptionActivity extends AppCompatActivity {
         Button bouton_inscription = (Button) findViewById(R.id.bouton_inscription);
         bouton_inscription.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View v){
-            final EditText motdepasse = (EditText) findViewById(R.id.edit_text_mdp);
-            String mdp = motdepasse.getText().toString();
-            final EditText confirmation = (EditText) findViewById(R.id.edit_text_confirmation_mdp);
-            String conf = confirmation.getText().toString();
-            final EditText identifiant = (EditText) findViewById(R.id.edit_text_identifiant);
-            String nom = identifiant.getText().toString();
-            final EditText email = (EditText) findViewById(R.id.edit_text_mail);
-            String mail = email.getText().toString();
+            public void onClick(View v) {
+                final EditText motdepasse = (EditText) findViewById(R.id.edit_text_mdp);
+                String mdp = motdepasse.getText().toString();
+                final EditText confirmation = (EditText) findViewById(R.id.edit_text_confirmation_mdp);
+                String conf = confirmation.getText().toString();
+                final EditText identifiant = (EditText) findViewById(R.id.edit_text_identifiant);
+                String nom = identifiant.getText().toString();
+                final EditText email = (EditText) findViewById(R.id.edit_text_mail);
+                String mail = email.getText().toString();
 
-            Connexion_BDD connexion = new Connexion_BDD();
+                ClientConfig config = new ClientConfig();
+                Client client = ClientBuilder.newClient(config);
+                WebTarget target = client.target(getBaseURI());
 
-            try {
-                String insertUsersQuery = "INSERT INTO android.test_user(nom, mdp) VALUES (?,?)";
-
-                Connection dbConnection = connexion.getConnection();
-                PreparedStatement preparedStatement = dbConnection.prepareStatement(insertUsersQuery);
-
-                preparedStatement.setString(1, nom);
-                preparedStatement.setString(2, mdp);
-
-                preparedStatement.executeUpdate();
-
-                preparedStatement.close();
-            } catch(SQLException se) {
-                System.err.println(se.getMessage());
-            }
+                target.path("insertUser").path(nom).path(mdp).request().accept(MediaType.APPLICATION_JSON).get(String.class);
             }
         });
 
@@ -64,4 +61,13 @@ public class InscriptionActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
+    private static URI getBaseURI() {
+
+        return UriBuilder.fromUri("http://192.168.137.1:8080/Ceparou").build();
+
+    }
+
 }
