@@ -7,17 +7,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.config.DefaultClientConfig;
+
 import java.net.URI;
 
-import javax.ws.rs.Path;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
-
-import org.glassfish.jersey.client.ClientConfig;
 
 
 
@@ -45,11 +42,8 @@ public class InscriptionActivity extends AppCompatActivity {
                 final EditText email = (EditText) findViewById(R.id.edit_text_mail);
                 String mail = email.getText().toString();
 
-                ClientConfig config = new ClientConfig();
-                Client client = ClientBuilder.newClient(config);
-                WebTarget target = client.target(getBaseURI());
-
-                target.path("insertUser").path(nom).path(mdp).request().accept(MediaType.APPLICATION_JSON).get(String.class);
+                Client client = Client.create(new DefaultClientConfig());
+                ClientResponse rep2 = client.resource(getBaseURI()).path("insertUser").path(nom).path(mdp).get(ClientResponse.class);
             }
         });
 
@@ -66,7 +60,7 @@ public class InscriptionActivity extends AppCompatActivity {
 
     private static URI getBaseURI() {
 
-        return UriBuilder.fromUri("http://192.168.137.1:8080/Ceparou").build();
+        return UriBuilder.fromUri("http://192.168.137.1:8080/Ceparou/service").build();
 
     }
 
