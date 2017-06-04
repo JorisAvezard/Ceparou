@@ -1,17 +1,30 @@
 package com.example.groov.my_ceparou;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    SendRequest request;
+    Gson gson = new GsonBuilder().create();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,19 +36,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final EditText identifiant = (EditText) findViewById(R.id.edit_text_identifiant);
-                String id = identifiant.getText().toString();
+                String pseudo = identifiant.getText().toString();
                 final EditText motdepasse = (EditText) findViewById(R.id.edit_text_mdp);
                 String mdp = motdepasse.getText().toString();
                 final CheckBox accepte = (CheckBox) findViewById(R.id.checkbox_accepte);
-
-                if (id.equals("lucas") && (mdp.equals("lucas")) && (accepte.isChecked() == true)) {
-                    //lancer une session
-                    System.out.println("Connexion réussie");
-                    startActivity(new Intent(MainActivity.this, MoteurActivity.class));
-                } else {
-                    startActivity(new Intent(MainActivity.this, PopConnexionActivity.class));
-                    System.out.println("Connexion ratée");
+                String coche = "";
+                if(accepte.isChecked()) {
+                    coche = "1";
                 }
+                else { coche = "0"; }
+                MyAsynTask myAsyncTask = new  MyAsynTask();
+                myAsyncTask.execute(pseudo, mdp, coche);
             }
         });
 
@@ -54,5 +65,47 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, InscriptionActivity.class));
             }
         });
+    }
+
+    public class MyAsynTask extends AsyncTask<String, Integer, Void> {
+
+        @Override
+        protected Void doInBackground(String... arg0) {
+            String pseudo = arg0[0];
+            String mdp = arg0[1];
+            String acc = arg0[2];
+            User user;
+            try {
+                URL url = new URL("http://192.168.137.1:8080/Ceparou/service/connexion/" + pseudo + "/" + mdp);
+
+                InputStream inputStream = request.sendRequest(url);
+
+                // Vérification de l'inputStream
+                if (inputStream != null) {
+                    // Lecture de l'inputStream dans un reader
+
+                    InputStreamReader reader = new InputStreamReader(inputStream);
+
+                    // Retourne la liste désérialisée par le moteur GSON
+
+                    user = gson.fromJson(reader, User.class);
+                    System.out.println(user.toString());
+                    if (user.getPseudo().equals(pseudo) && (user.getPassword().equals(mdp)) && acc.equals("1")) {
+                        //lancer une session
+                        System.out.println("Connexion réussie");
+                        startActivity(new Intent(MainActivity.this, MoteurActivity.class));
+                    } else {
+                        startActivity(new Intent(MainActivity.this, PopConnexionActivity.class));
+                        System.out.println("Connexion ratée");
+                    }
+                    return null;
+                }
+
+            } catch (Exception e) {
+                Log.e("Ceparou", "Impossible de rapatrier les données :(");
+            }
+            return null;
+
+        }
     }
 }

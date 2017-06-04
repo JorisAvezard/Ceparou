@@ -28,4 +28,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile project(':jsr311-api-1.1.1')
     compile project(':jersey-client-1.14')
+    compile 'com.google.code.gson:gson:2.8.1'
 }
