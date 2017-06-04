@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity"
+    android:clickable="false">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:id="@+id/linearLayout">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Modification mail"
+            android:textStyle="bold"
+            android:textColor="#1a2094"
+            android:gravity="right"
+            android:textSize="20dp"
+            />
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Ancienne adresse mail :"
+            android:textStyle="bold"
+            android:textColor="#FF0000"
+            />
+        <TextView
+            android:id="@+id/affichage_mail"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Affichage mail"
+            android:textStyle="bold"
+            android:gravity="left"
+            />
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Nouvelle adresse mail :"
+            android:textStyle="bold"
+            android:textColor="#FF0000"
+            />
+        <EditText
+            android:id="@+id/edit_text_nouveau_mail"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint=""
+            android:inputType="textEmailAddress"
+            />
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Confirmation par mot de passe :"
+            android:textStyle="bold"
+            android:textColor="#FF0000"
+            />
+        <EditText
+            android:id="@+id/edit_text_confirmation_mdp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint=""
+            android:inputType="textPassword"
+            />
+        <Button
+            android:id="@+id/bouton_modification_mail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mettre à jour mon adresse mail"
+            />
+        <Button
+            android:id="@+id/bouton_page_parametres_from_modif_mail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:layout_gravity="right"
+            android:textSize="10dp"
+            android:textStyle="italic"
+            android:background="@mipmap/retour"
+            />
+
+    </LinearLayout>
+
+</ScrollView>
