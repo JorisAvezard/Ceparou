@@ -42,4 +42,11 @@ public class User {
 		this.password = password;
 	}
 
+	@Override
+	public String toString() {
+		return "User [id_user=" + id_user + ", pseudo=" + pseudo + ", password=" + password + "]";
+	}
+	
+	
+
 }

@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
+
 public class ExecuteQuery {
 	
 	/*
@@ -31,26 +33,29 @@ public class ExecuteQuery {
 		}
 	}
 	
-//	public static void insertProfile(Profile profile) {
-//		try {
-//			String insertProfilesQuery = "INSERT INTO android.profiles (firstname, lastname, email, user_id) VALUES (?,?,?,?)";
-//			
-//			Connection dbConnection = Connection_DB.getConnection();
-//			PreparedStatement preparedStatement = dbConnection.prepareStatement(insertProfilesQuery);
-//			
-//			preparedStatement.setString(1, profile.getFirstname());
-//			preparedStatement.setString(2, profile.getLastname());
-//			preparedStatement.setString(3, profile.getEmail());
-//			preparedStatement.setString(4, profile.getUser_id());
-//			
-//			preparedStatement.executeUpdate();
-//			
-//			preparedStatement.close();
-//		} catch(SQLException se) {
-//			System.err.println(se.getMessage());
-//		}
-//	}
-//	
+	public void insertProfile(Profile profile) {
+		try {
+			String insertProfilesQuery = "INSERT INTO android.profiles (firstname, lastname, email, user_id) VALUES (?,?,?,?)";
+			
+			Connection dbConnection = Connection_DB.getConnection();
+			PreparedStatement preparedStatement = dbConnection.prepareStatement(insertProfilesQuery);
+			
+			preparedStatement.setString(1, profile.getFirstname());
+			preparedStatement.setString(2, profile.getLastname());
+			preparedStatement.setString(3, profile.getEmail());
+			preparedStatement.setString(4, profile.getUser_id());
+			
+			preparedStatement.executeUpdate();
+			
+			preparedStatement.close();
+		} catch(SQLException se) {
+			System.err.println(se.getMessage());
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 //	public static void insertBuilding(Building building) {
 //		try {
 //			String insertBuildingsQuery = "INSERT INTO android.buildings (id_building, name_main, name_specific) VALUES (?,?,?)";
@@ -232,5 +237,78 @@ public class ExecuteQuery {
 //		}
 //		return mail;
 //	}
+	
+	public User selectUser(String pseudo, String password) {
+		User user = new User();
+		try {
+			String selectUserQuery = "SELECT id_user, pseudo, password FROM android.users WHERE pseudo = ? AND password = ?";
+			
+			Connection dbConnection;
+			dbConnection = Connection_DB.getConnection();
+			
+			PreparedStatement preparedStatement = dbConnection.prepareStatement(selectUserQuery);
+			preparedStatement.setString(1, pseudo);
+			preparedStatement.setString(2, password);
+			
+			ResultSet result = preparedStatement.executeQuery();
+			while (result.next()) {
+				user.setId_user(result.getString("id_user").trim());
+				user.setPseudo(result.getString("pseudo").trim());
+				user.setPassword(result.getString("password").trim());
+			}
+			preparedStatement.close();
+		} catch(SQLException se) {
+			System.err.println(se.getMessage());
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return user;
+	}
+	
+	public String selectPseudo(String pseudo) {
+		String response = "";
+		try {
+			String selectPseudoQuery = "SELECT pseudo FROM android.users WHERE pseudo = ?";
+			Connection dbConnection;
+			dbConnection = Connection_DB.getConnection();
+			
+			PreparedStatement preparedStatement = dbConnection.prepareStatement(selectPseudoQuery);
+			preparedStatement.setString(1, pseudo);
+			
+			ResultSet result = preparedStatement.executeQuery();
+			while (result.next()) {
+				response = result.getString("pseudo").trim();
+			}
+			preparedStatement.close();
+		} catch(SQLException se) {
+			System.err.println(se.getMessage());
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return response;
+	}
+	
+	public String selectMail(String mail) {
+		String response = "";
+		try {
+			String selectMailQuery = "SELECT email FROM android.users WHERE email = ?";
+			Connection dbConnection;
+			dbConnection = Connection_DB.getConnection();
+			
+			PreparedStatement preparedStatement = dbConnection.prepareStatement(selectMailQuery);
+			preparedStatement.setString(1, mail);
+			
+			ResultSet result = preparedStatement.executeQuery();
+			while (result.next()) {
+				response = result.getString("email").trim();
+			}
+			preparedStatement.close();
+		} catch(SQLException se) {
+			System.err.println(se.getMessage());
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return response;
+	}
 	
 }

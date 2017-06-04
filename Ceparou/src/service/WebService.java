@@ -35,14 +35,24 @@ public class WebService {
 		eq.insertUser(pseudo, password);
 	}
 	
+	@GET
+	@Path("/inscription/{pseudo}/{password}/{fname}/{lname}/{email}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public void inscription(@PathParam (value="pseudo")String pseudo, @PathParam (value="password")String password, @PathParam (value="fname")String firstname, @PathParam (value="lname")String lastname, @PathParam (value="email")String email) {
+		eq.insertUser(pseudo, password);
+		User user = eq.selectUser(pseudo, password);
+		Profile profile = new Profile(firstname, lastname, email, user.getId_user());
+		eq.insertProfile(profile);
+	}
+	
 //	@GET
 //	@Path("/insertProfile/{id}/{fname}/{lname}/{email}")
 //	@Produces(MediaType.APPLICATION_JSON)
 //	public void newProfile(@PathParam (value="id")String id, @PathParam (value="fname")String firstname, @PathParam (value="lname")String lastname, @PathParam (value="email")String email) {
 //		Profile profile = new Profile(firstname, lastname, email, id);
-//		ExecuteQuery.insertProfile(profile);
+//		eq.insertProfile(profile);
 //	}
-//	
+	
 //	@GET
 //	@Path("/insertBuilding/{id}/{name_main}/{name_specific}")
 //	@Produces(MediaType.APPLICATION_JSON)
@@ -87,5 +97,30 @@ public class WebService {
 //	public String findMail(@PathParam (value="profile")Profile profile) {
 //		return ExecuteQuery.selectProfile(profile);
 //	}
+	
+	@GET
+	@Path("/connexion/{pseudo}/{password}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String connexion(@PathParam (value="pseudo")String pseudo, @PathParam (value="password")String password) {
+		User user = eq.selectUser(pseudo, password);
+		System.out.println(user.toString());
+		String result = "{\"id_user\":\"" + user.getId_user() + "\", \"pseudo\":\""+ user.getPseudo() + "\", \"password\":\"" + user.getPassword() + "\"}";
+		System.out.println(result);
+		return result;
+	}
+	
+	@GET
+	@Path("/mail/{email}")
+	public String selectMail(@PathParam (value="email")String email) {
+		String result = eq.selectMail(email);
+		return result;
+	}
+	
+	@GET
+	@Path("/pseudo/{pseudo}")
+	public String selectPseudo(@PathParam (value="pseudo")String pseudo) {
+		String result = eq.selectMail(pseudo);
+		return result;
+	}
 	
 }
