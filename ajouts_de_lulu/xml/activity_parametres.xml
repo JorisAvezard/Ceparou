@@ -76,23 +76,24 @@
             android:textColor="#1a2094"
             android:gravity="left"
             />
-            <TextView
-                android:id="@+id/textView_mail"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="récupérer et écrire le mail"
-                android:textStyle="bold"
-                android:gravity="left"
-                />
-            <Button
-                android:id="@+id/bouton_page_modification_mail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:text="Modifier mon e-mail"
-                android:textSize="10dp"
-                android:textStyle="italic"
-                />
+        <TextView
+            android:id="@+id/textView_mail"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="récupérer et écrire le mail"
+            android:textStyle="bold"
+            android:gravity="left"
+            />
+        <Button
+            android:id="@+id/bouton_page_modification_mail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="Modifier mon e-mail"
+            android:textSize="10dp"
+            android:textStyle="italic"
+            />
+
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -167,16 +168,7 @@
                 android:layout_height="wrap_content"
                 android:text="Oui"
                 />
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="  (t'avais qu'à lire les petites lignes)"
-                android:textStyle=""
-                android:gravity="left"
-                android:textSize="7sp"
-                />
         </RadioGroup>
-
         <TextView
             android:id="@+id/textView_suppression_compte"
             android:layout_width="fill_parent"

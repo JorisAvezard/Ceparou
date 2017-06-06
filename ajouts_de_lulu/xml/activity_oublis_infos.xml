@@ -37,7 +37,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:hint=""
-            android:inputType="textEmailAddress"
+            android:inputType="text"
             />
 
         <Button
@@ -63,6 +63,7 @@
             android:layout_gravity="right"
             android:textSize="10dp"
             android:textStyle="italic"
+
             android:background="@mipmap/retour"
             />
 
