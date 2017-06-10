@@ -16,13 +16,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
-import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.ws.rs.core.UriBuilder;
 
@@ -34,7 +29,7 @@ import javax.ws.rs.core.UriBuilder;
 
 public class InscriptionActivity extends AppCompatActivity {
 
-    SendRequest request;
+    SendRequest request = new SendRequest();
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -45,20 +40,24 @@ public class InscriptionActivity extends AppCompatActivity {
         bouton_inscription.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                final EditText identifiant = (EditText) findViewById(R.id.edit_text_identifiant);
+                String id = identifiant.getText().toString();
                 final EditText motdepasse = (EditText) findViewById(R.id.edit_text_mdp);
                 String mdp = motdepasse.getText().toString();
                 final EditText confirmation = (EditText) findViewById(R.id.edit_text_confirmation_mdp);
                 String conf = confirmation.getText().toString();
-                final EditText identifiant = (EditText) findViewById(R.id.edit_text_identifiant);
-                String nom = identifiant.getText().toString();
+                final EditText nom = (EditText) findViewById(R.id.edit_text_lastname);
+                String lastname = nom.getText().toString();
+                final EditText prenom = (EditText) findViewById(R.id.edit_text_firstname);
+                String firstname = prenom.getText().toString();
                 final EditText email = (EditText) findViewById(R.id.edit_text_mail);
                 String mail = email.getText().toString();
 
-                MyAsynTask myAsyncTask = new  MyAsynTask();
+                System.out.println(id + " " + mdp + " " + conf + " " + lastname + " " + firstname + " " + mail);
+
+                MyAsynTask myAsyncTask = new MyAsynTask();
                 //EN ATTENDANT DE RAJOUTER LES CHAMPS NECESSAIRES
-                //myAsyncTask.execute(nom, mdp, conf, firstname, lastname, mail);
-
-
+                myAsyncTask.execute(id, mdp, conf, lastname, firstname, mail);
             }
         });
 
@@ -71,14 +70,6 @@ public class InscriptionActivity extends AppCompatActivity {
         });
     }
 
-
-
-    private static URI getBaseURI() {
-
-        return UriBuilder.fromUri("http://192.168.137.1:8080/Ceparou/service").build();
-
-    }
-
     public class MyAsynTask extends AsyncTask<String, Integer, Void> {
 
         @Override
@@ -86,13 +77,15 @@ public class InscriptionActivity extends AppCompatActivity {
             String nom = arg0[0];
             String mdp = arg0[1];
             String conf = arg0[2];
-            String firstname = arg0[3];
-            String lastname = arg0[4];
+            String lastname = arg0[3];
+            String firstname = arg0[4];
             String email = arg0[5];
 
+            System.out.println(nom + " / " + mdp + " / " + conf + " / " + lastname + " / " + firstname + " / " + email);
             if(mdp.equals(conf)) {
                 try {
                     URL url_name = new URL("http://192.168.137.1:8080/Ceparou/service/pseudo/" + nom);
+                    System.out.println(url_name);
                     InputStream inputStream_name = request.sendRequest(url_name);
                     if (inputStream_name != null) {
                         String result_name = "";
@@ -103,6 +96,7 @@ public class InscriptionActivity extends AppCompatActivity {
                             baos_name.write(buffer_name, 0, length_name);
                         }
                         result_name = baos_name.toString("UTF-8");
+                        System.out.println("Résultat de la requete pseudo : " + result_name);
 
                         if (!result_name.equals(nom)) {
                             URL url_mail = new URL("http://192.168.137.1:8080/Ceparou/service/mail/" + email);
@@ -116,6 +110,7 @@ public class InscriptionActivity extends AppCompatActivity {
                                     baos_mail.write(buffer_mail, 0, length_mail);
                                 }
                                 result_mail = baos_mail.toString("UTF-8");
+                                System.out.println("Résultat de la requete mail : " + result_mail);
 
                                 if (!result_mail.equals(email)) {
                                     URL url = new URL("http://192.168.137.1:8080/Ceparou/service/inscription/" + nom + "/" + mdp + "/" + firstname + "/" + lastname + "/" + email);
@@ -127,9 +122,9 @@ public class InscriptionActivity extends AppCompatActivity {
                                     startActivity(new Intent(InscriptionActivity.this,PopInscriptionEchecMailActivity.class));
                                 }
                             }
-                            else {
-                                startActivity(new Intent(InscriptionActivity.this,PopInscriptionEchecIDActivity.class));
-                            }
+                        }
+                        else {
+                            startActivity(new Intent(InscriptionActivity.this,PopInscriptionEchecIDActivity.class));
                         }
                     }
                 } catch (UnsupportedEncodingException e) {

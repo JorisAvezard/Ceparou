@@ -6,7 +6,7 @@ package com.example.groov.my_ceparou;
 
 public class User {
 
-    private String id_user;
+    private int id_user;
     private String pseudo;
     private String password;
 
@@ -15,18 +15,18 @@ public class User {
         // TODO Auto-generated constructor stub
     }
 
-    public User(String id_user, String pseudo, String password) {
+    public User(int id_user, String pseudo, String password) {
         super();
         this.id_user = id_user;
         this.pseudo = pseudo;
         this.password = password;
     }
 
-    public String getId_user() {
+    public int getId_user() {
         return id_user;
     }
 
-    public void setId_user(String id_user) {
+    public void setId_user(int id_user) {
         this.id_user = id_user;
     }
 

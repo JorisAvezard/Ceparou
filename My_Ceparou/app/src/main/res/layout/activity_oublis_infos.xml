@@ -59,10 +59,12 @@
             android:id="@+id/bouton_page_connexion_from_oublis"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Retour"
+            android:text=""
             android:layout_gravity="right"
             android:textSize="10dp"
             android:textStyle="italic"
+
+            android:background="@mipmap/retour"
             />
 
     </LinearLayout>

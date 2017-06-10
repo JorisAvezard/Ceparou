@@ -10,8 +10,12 @@ import java.net.URL;
 
 public class SendRequest {
 
-    public InputStream sendRequest(URL url) throws Exception {
+    public SendRequest() {
 
+    }
+
+    public InputStream sendRequest(URL url) throws Exception {
+        InputStream inputStream = null;
         try {
             // Ouverture de la connexion
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
@@ -21,11 +25,11 @@ public class SendRequest {
 
             // Si le serveur nous répond avec un code OK
             if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                return urlConnection.getInputStream();
+                inputStream =  urlConnection.getInputStream();
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return inputStream;
     }
 }

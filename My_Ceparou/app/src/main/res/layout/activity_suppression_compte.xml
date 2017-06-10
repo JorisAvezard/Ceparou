@@ -63,10 +63,11 @@
             android:id="@+id/bouton_page_parametres_from_suppression_compte"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Retour"
+            android:text=""
             android:layout_gravity="right"
             android:textSize="10dp"
             android:textStyle="italic"
+            android:background="@mipmap/retour"
             />
 
     </LinearLayout>

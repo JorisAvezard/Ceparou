@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -12,18 +11,14 @@ import android.widget.EditText;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    SendRequest request;
+    SendRequest request = new SendRequest();
     Gson gson = new GsonBuilder().create();
 
     @Override
@@ -89,23 +84,20 @@ public class MainActivity extends AppCompatActivity {
                     // Retourne la liste désérialisée par le moteur GSON
 
                     user = gson.fromJson(reader, User.class);
-                    System.out.println(user.toString());
                     if (user.getPseudo().equals(pseudo) && (user.getPassword().equals(mdp)) && acc.equals("1")) {
                         //lancer une session
                         System.out.println("Connexion réussie");
                         startActivity(new Intent(MainActivity.this, MoteurActivity.class));
                     } else {
-                        startActivity(new Intent(MainActivity.this, PopConnexionActivity.class));
                         System.out.println("Connexion ratée");
+                        startActivity(new Intent(MainActivity.this, PopConnexionActivity.class));
                     }
-                    return null;
                 }
 
             } catch (Exception e) {
-                Log.e("Ceparou", "Impossible de rapatrier les données :(");
+                e.printStackTrace();
             }
             return null;
-
         }
     }
 }
