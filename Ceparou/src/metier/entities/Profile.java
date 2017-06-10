@@ -5,13 +5,13 @@ public class Profile {
 	private String firstname;
 	private String lastname;
 	private String email;
-	private String user_id;
+	private int user_id;
 	
 	public Profile() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Profile(String firstname, String lastname, String email, String user_id) {
+	public Profile(String firstname, String lastname, String email, int user_id) {
 		super();
 		this.firstname = firstname;
 		this.lastname = lastname;
@@ -43,11 +43,11 @@ public class Profile {
 		this.email = email;
 	}
 
-	public String getUser_id() {
+	public int getUser_id() {
 		return user_id;
 	}
 
-	public void setUser_id(String user_id) {
+	public void setUser_id(int user_id) {
 		this.user_id = user_id;
 	}
 

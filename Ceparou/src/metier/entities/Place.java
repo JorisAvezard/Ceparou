@@ -1,64 +1,65 @@
 package metier.entities;
 
+import java.util.List;
+
 public class Place {
-	
-	private String id_place;
-	private String name_place;
-	private String area;
-	private String walls;
-	private String building_id;
-	
-	public Place() {
-		// TODO Auto-generated constructor stub
-	}
 
-	public Place(String id_place, String name_place, String area, String walls, String building_id) {
-		super();
-		this.id_place = id_place;
-		this.name_place = name_place;
-		this.area = area;
-		this.walls = walls;
-		this.building_id = building_id;
-	}
+    private int id_place;
+    private String name_place;
+    private List<Coordinate> area;
+    private List<Coordinate> walls;
+    private int building_id;
 
-	public String getId_place() {
-		return id_place;
-	}
+    public Place() {
 
-	public void setId_place(String id_place) {
-		this.id_place = id_place;
-	}
+    }
 
-	public String getName_place() {
-		return name_place;
-	}
+    public Place(int id_place, String name_place, List<Coordinate> area, List<Coordinate> walls, int building_id) {
+        super();
+        this.id_place = id_place;
+        this.name_place = name_place;
+        this.area = area;
+        this.walls = walls;
+        this.building_id = building_id;
+    }
 
-	public void setName_place(String name_place) {
-		this.name_place = name_place;
-	}
+    public int getId_place() {
+        return id_place;
+    }
 
-	public String getArea() {
-		return area;
-	}
+    public void setId_place(int id_place) {
+        this.id_place = id_place;
+    }
 
-	public void setArea(String area) {
-		this.area = area;
-	}
+    public String getName_place() {
+        return name_place;
+    }
 
-	public String getWalls() {
-		return walls;
-	}
+    public void setName_place(String name_place) {
+        this.name_place = name_place;
+    }
 
-	public void setWalls(String walls) {
-		this.walls = walls;
-	}
+    public List<Coordinate> getArea() {
+        return area;
+    }
 
-	public String getBuilding_id() {
-		return building_id;
-	}
+    public void setArea(List<Coordinate> area) {
+        this.area = area;
+    }
 
-	public void setBuilding_id(String building_id) {
-		this.building_id = building_id;
-	}
+    public List<Coordinate> getWalls() {
+        return walls;
+    }
 
+    public void setWalls(List<Coordinate> walls) {
+        this.walls = walls;
+    }
+
+    public int getBuilding_id() {
+        return building_id;
+    }
+
+    public void setBuilding_id(int building_id) {
+        this.building_id = building_id;
+    }
 }

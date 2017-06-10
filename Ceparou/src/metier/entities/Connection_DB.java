@@ -23,10 +23,10 @@ public class Connection_DB {
 		Class.forName("org.postgresql.Driver");
 		Connection connection = DriverManager.getConnection(url, user, password);
 		if (connection != null) {
-			System.out.println("Connexion établie ! :)");
+			System.out.println("Connexion à la base établie !");
 			return connection;
 		}
-		System.out.println("Connexion non établie ! :(");
+		System.out.println("Connexion à la base échouée !");
 		return null;
 	}
 

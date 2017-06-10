@@ -1,5 +1,8 @@
 package service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -32,6 +35,7 @@ public class WebService {
 	@Path("/insertUser/{pseudo}/{password}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public void newUser(@PathParam (value="pseudo")String pseudo, @PathParam (value="password")String password) {
+		System.out.println("Insertion : user");
 		eq.insertUser(pseudo, password);
 	}
 	
@@ -39,9 +43,12 @@ public class WebService {
 	@Path("/inscription/{pseudo}/{password}/{fname}/{lname}/{email}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public void inscription(@PathParam (value="pseudo")String pseudo, @PathParam (value="password")String password, @PathParam (value="fname")String firstname, @PathParam (value="lname")String lastname, @PathParam (value="email")String email) {
+		System.out.println("Insertion : user");
 		eq.insertUser(pseudo, password);
+		System.out.println("Selection : user");
 		User user = eq.selectUser(pseudo, password);
 		Profile profile = new Profile(firstname, lastname, email, user.getId_user());
+		System.out.println("Insertion : profile");
 		eq.insertProfile(profile);
 	}
 	
@@ -53,13 +60,14 @@ public class WebService {
 //		eq.insertProfile(profile);
 //	}
 	
-//	@GET
-//	@Path("/insertBuilding/{id}/{name_main}/{name_specific}")
-//	@Produces(MediaType.APPLICATION_JSON)
-//	public void newBuildings(@PathParam (value="id")String id, @PathParam (value="name_main")String name_main, @PathParam (value="name_specific")String name_specific) {
-//		Building building = new Building(id, name_main, name_specific);
-//		ExecuteQuery.insertBuilding(building);
-//	}
+	@GET
+	@Path("/insertBuilding/{name_main}/{name_specific}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public void newBuildings(@PathParam (value="name_main")String name_main, @PathParam (value="name_specific")String name_specific) {
+		System.out.println("Insert : building");
+		Building building = new Building(0, name_main, name_specific);
+		ExecuteQuery.insertBuilding(building);
+	}
 //	
 //	@GET
 //	@Path("/insertPlace/{id_place}/{name_place}/{area}/{walls}/{building_id}")
@@ -102,16 +110,16 @@ public class WebService {
 	@Path("/connexion/{pseudo}/{password}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String connexion(@PathParam (value="pseudo")String pseudo, @PathParam (value="password")String password) {
+		System.out.println("Selection : user");
 		User user = eq.selectUser(pseudo, password);
-		System.out.println(user.toString());
 		String result = "{\"id_user\":\"" + user.getId_user() + "\", \"pseudo\":\""+ user.getPseudo() + "\", \"password\":\"" + user.getPassword() + "\"}";
-		System.out.println(result);
 		return result;
 	}
 	
 	@GET
 	@Path("/mail/{email}")
 	public String selectMail(@PathParam (value="email")String email) {
+		System.out.println("Selection : 'mail' in profile");
 		String result = eq.selectMail(email);
 		return result;
 	}
@@ -119,8 +127,25 @@ public class WebService {
 	@GET
 	@Path("/pseudo/{pseudo}")
 	public String selectPseudo(@PathParam (value="pseudo")String pseudo) {
-		String result = eq.selectMail(pseudo);
+		System.out.println("Selection : 'pseudo' in user");
+		String result = eq.selectPseudo(pseudo);
 		return result;
 	}
 	
+	/*@GET
+	@Path("/savePlace/{place}")
+	public void savePlace(@PathParam (value="place")Place place) {
+		System.out.println("Insertion : place");
+		eq.insertPlace(place);
+	}*/
+	
+	@GET
+	@Path("/building")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Building> selectAllBuilding() {
+		System.out.println("Select * : building");
+		List<Building> list_building = new ArrayList<Building>();
+		list_building = eq.selectBuilding();
+		return list_building;
+	}
 }

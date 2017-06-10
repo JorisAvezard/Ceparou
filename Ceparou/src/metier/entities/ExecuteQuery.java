@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
 
@@ -43,7 +45,7 @@ public class ExecuteQuery {
 			preparedStatement.setString(1, profile.getFirstname());
 			preparedStatement.setString(2, profile.getLastname());
 			preparedStatement.setString(3, profile.getEmail());
-			preparedStatement.setString(4, profile.getUser_id());
+			preparedStatement.setInt(4, profile.getUser_id());
 			
 			preparedStatement.executeUpdate();
 			
@@ -56,45 +58,63 @@ public class ExecuteQuery {
 		}
 	}
 	
-//	public static void insertBuilding(Building building) {
-//		try {
-//			String insertBuildingsQuery = "INSERT INTO android.buildings (id_building, name_main, name_specific) VALUES (?,?,?)";
-//			
-//			Connection dbConnection = Connection_DB.getConnection();
-//			PreparedStatement preparedStatement = dbConnection.prepareStatement(insertBuildingsQuery);
-//			
-//			preparedStatement.setString(1, building.getId_building());
-//			preparedStatement.setString(2, building.getName_main());
-//			preparedStatement.setString(3, building.getName_specific());
-//			
-//			preparedStatement.executeUpdate();
-//			
-//			preparedStatement.close();
-//		} catch(SQLException se) {
-//			System.err.println(se.getMessage());
-//		}
-//	}
+	/*public void insertPlace(Place place) {
+		String area = "POLYGON((";
+		String walls = "MULTILINESTRING((";
+		try {
+			
+			String insertPlacesQuery = "INSERT INTO android.places (id_place, name_place, area, walls, building_id) VALUES (?,?,?,?,?)";
+			
+			for(int i = 0; i < place.getArea().size() - 1; i++) {
+				area = area + place.getArea().get(i).getLatitude() + " " + place.getArea().get(i).getLongitude() + ", ";
+			}
+			area = area + place.getArea().get(place.getArea().size() - 1).getLatitude() + " " + place.getArea().get(place.getArea().size() - 1).getLongitude() + "))";
+			
+			for(int j = 0; j < place.getWalls().size() - 1; j++) {
+				//Pour la rentrée des walls, voir apres
+			}
+			
+			Connection dbConnection = Connection_DB.getConnection();
+			PreparedStatement preparedStatement = dbConnection.prepareStatement(insertPlacesQuery);
+			
+			preparedStatement.setInt(1, place.getId_place());
+			preparedStatement.setString(2, place.getName_place());
+			preparedStatement.setString(3, area);
+			preparedStatement.setString(4, walls);
+			preparedStatement.setInt(5, place.getBuilding_id());
+			
+			preparedStatement.executeUpdate();
+			
+			preparedStatement.close();
+		} catch(SQLException se) {
+			System.err.println(se.getMessage());
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}*/
+	
+	public static void insertBuilding(Building building) {
+		try {
+			String insertBuildingsQuery = "INSERT INTO android.buildings (name_main, name_specific) VALUES (?,?)";
+			
+			Connection dbConnection = Connection_DB.getConnection();
+			PreparedStatement preparedStatement = dbConnection.prepareStatement(insertBuildingsQuery);
+			
+			preparedStatement.setString(1, building.getName_main());
+			preparedStatement.setString(2, building.getName_specific());
+			
+			preparedStatement.executeUpdate();
+			
+			preparedStatement.close();
+		} catch(SQLException se) {
+			System.err.println(se.getMessage());
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 //	
-//	public static void insertPlace(Place place) {
-//		try {
-//			String insertPlacesQuery = "INSERT INTO android.places (id_place, name_place, area, walls, building_id) VALUES (?,?,?,?,?)";
-//			
-//			Connection dbConnection = Connection_DB.getConnection();
-//			PreparedStatement preparedStatement = dbConnection.prepareStatement(insertPlacesQuery);
-//			
-//			preparedStatement.setString(1, place.getId_place());
-//			preparedStatement.setString(2, place.getName_place());
-//			preparedStatement.setString(3, place.getArea());
-//			preparedStatement.setString(4, place.getWalls());
-//			preparedStatement.setString(5, place.getBuilding_id());
-//			
-//			preparedStatement.executeUpdate();
-//			
-//			preparedStatement.close();
-//		} catch(SQLException se) {
-//			System.err.println(se.getMessage());
-//		}
-//	}
 //	
 //	public static void insertPath(Way path) {
 //		try {
@@ -252,7 +272,7 @@ public class ExecuteQuery {
 			
 			ResultSet result = preparedStatement.executeQuery();
 			while (result.next()) {
-				user.setId_user(result.getString("id_user").trim());
+				user.setId_user(result.getInt("id_user"));
 				user.setPseudo(result.getString("pseudo").trim());
 				user.setPassword(result.getString("password").trim());
 			}
@@ -291,7 +311,7 @@ public class ExecuteQuery {
 	public String selectMail(String mail) {
 		String response = "";
 		try {
-			String selectMailQuery = "SELECT email FROM android.users WHERE email = ?";
+			String selectMailQuery = "SELECT email FROM android.profiles WHERE email = ?";
 			Connection dbConnection;
 			dbConnection = Connection_DB.getConnection();
 			
@@ -309,6 +329,32 @@ public class ExecuteQuery {
 			e.printStackTrace();
 		}
 		return response;
+	}
+	
+	public List<Building> selectBuilding() {
+		Building building = new Building();
+		List<Building> list_building = new ArrayList<Building>();
+		try {
+			String selectBuildingQuery = "SELECT * FROM android.buildings";
+			Connection dbConnection;
+			dbConnection = Connection_DB.getConnection();
+			
+			PreparedStatement preparedStatement = dbConnection.prepareStatement(selectBuildingQuery);
+			
+			ResultSet result = preparedStatement.executeQuery();
+			while (result.next()) {
+				building.setId_building(result.getInt("id_building"));
+				building.setName_main(result.getString("name_main").trim());
+				building.setName_specific(result.getString("name_specific").trim());
+				list_building.add(building);
+			}
+			preparedStatement.close();
+		} catch(SQLException se) {
+			System.err.println(se.getMessage());
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return list_building;
 	}
 	
 }

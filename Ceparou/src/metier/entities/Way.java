@@ -2,17 +2,17 @@ package metier.entities;
 
 public class Way {
 	
-	private String id_path;
+	private int id_path;
 	private String coordinates;
 	private String date_time;
-	private String user_id;
-	private String building_id;
+	private int user_id;
+	private int building_id;
 	
 	public Way() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Way(String id_path, String coordinates, String date_time, String user_id, String building_id) {
+	public Way(int id_path, String coordinates, String date_time, int user_id, int building_id) {
 		super();
 		this.id_path = id_path;
 		this.coordinates = coordinates;
@@ -21,11 +21,11 @@ public class Way {
 		this.building_id = building_id;
 	}
 
-	public String getId_path() {
+	public int getId_path() {
 		return id_path;
 	}
 
-	public void setId_path(String id_path) {
+	public void setId_path(int id_path) {
 		this.id_path = id_path;
 	}
 
@@ -45,19 +45,19 @@ public class Way {
 		this.date_time = date_time;
 	}
 
-	public String getUser_id() {
+	public int getUser_id() {
 		return user_id;
 	}
 
-	public void setUser_id(String user_id) {
+	public void setUser_id(int user_id) {
 		this.user_id = user_id;
 	}
 
-	public String getBuilding_id() {
+	public int getBuilding_id() {
 		return building_id;
 	}
 
-	public void setBuilding_id(String building_id) {
+	public void setBuilding_id(int building_id) {
 		this.building_id = building_id;
 	}
 

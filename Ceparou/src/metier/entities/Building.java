@@ -2,26 +2,26 @@ package metier.entities;
 
 public class Building {
 	
-	private String id_building;
+	private int id_building;
 	private String name_main;
 	private String name_specific;
 	
 	public Building() {
-		// TODO Auto-generated constructor stub
+		
 	}
 
-	public Building(String id_building, String name_main, String name_specific) {
+	public Building(int id_building, String name_main, String name_specific) {
 		super();
 		this.id_building = id_building;
 		this.name_main = name_main;
 		this.name_specific = name_specific;
 	}
 
-	public String getId_building() {
+	public int getId_building() {
 		return id_building;
 	}
 
-	public void setId_building(String id_building) {
+	public void setId_building(int id_building) {
 		this.id_building = id_building;
 	}
 
