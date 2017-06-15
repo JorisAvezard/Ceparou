@@ -45,8 +45,9 @@ public class SavePlacesActivity extends AppCompatActivity {
                 Building building = (Building) spinner.getSelectedItem();
                 String id_building = String.valueOf(building.getId_building());
                 Intent intent = new Intent(SavePlacesActivity.this,GMActivity.class);
-                intent.putExtra(place, place);
-                intent.putExtra(id_building, id_building);
+                System.out.println("Place + building : " + place + " - " + id_building);
+                intent.putExtra("place", place);
+                intent.putExtra("id_building", id_building);
                 startActivity(intent);
             }
         });

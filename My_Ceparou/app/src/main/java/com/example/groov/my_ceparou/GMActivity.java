@@ -161,6 +161,7 @@ public class GMActivity extends FragmentActivity {
         mIALocationManager = IALocationManager.create(this);
         mResourceManager = IAResourceManager.create(this);
 
+        Bundle extras = getIntent().getExtras();
         final TextView type_entree = (TextView) findViewById(R.id.type_entree);
         final Button save_area = (Button) findViewById(R.id.save_area);
         final Button save_walls = (Button) findViewById(R.id.save_walls);
@@ -169,6 +170,9 @@ public class GMActivity extends FragmentActivity {
         type_entree.setText("Rentrez les points pour l'Area :");
         save_area.setEnabled(true);
         save_walls.setEnabled(false);
+        final String name_place = extras.getString("place");
+        final String id_building = extras.getString("id_building");
+        System.out.println("Place + building : " + name_place + " - " + id_building);
 
         save_area.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -222,12 +226,11 @@ public class GMActivity extends FragmentActivity {
                 }
                 else {
                     //Faire la requete puis retour dans la page admin
-                    String name_place = getIntent().getStringExtra("place");
-                    String id_building = getIntent().getStringExtra("id_building");
                     MyAsynTask myAsyncTask = new  MyAsynTask();
                     List<String> list = new ArrayList<String>();
                     list.add(name_place);
                     list.add(id_building);
+                    System.out.println(name_place + " " + id_building);
                     System.out.println("Affichage de la place et du building : ");
                     for(int t = 0; t < list.size(); t++) {
                         System.out.println(list.get(t).toString() + " ");
@@ -424,21 +427,25 @@ public class GMActivity extends FragmentActivity {
             }
             //On transforme en chaine String
             for(int i = 0; i < list_areas.size() - 1; i++) {
-                area = area + list_areas.get(i).getLatitude() + " " + list_areas.get(i).getLongitude() + ", ";
+                area = area + list_areas.get(i).getLatitude() + "-" + list_areas.get(i).getLongitude() + ",";
             }
-            area = area + list_areas.get(list_areas.size() - 1).getLatitude() + " " + list_areas.get(list_areas.size() - 1).getLongitude() + "))";
+            area = area + list_areas.get(list_areas.size() - 1).getLatitude() + "-" + list_areas.get(list_areas.size() - 1).getLongitude() + "))";
 
             for(int j = 0; j < list_walls.size(); j+=2) {
                 double latitudeX = list_walls.get(j).getLatitude();
                 double latitudeY = list_walls.get(j+1).getLatitude();
                 double longitudeX = list_walls.get(j).getLongitude();
                 double longitudeY = list_walls.get(j+1).getLongitude();
-                walls = walls + "( " + latitudeX + " " + longitudeX + ", " + latitudeY + " " + longitudeY + ")";
-                if(list_walls.get(j+3) != null) {
-                    walls = walls + ", ";
+                walls = walls + "(" + latitudeX + "-" + longitudeX + "," + latitudeY + "-" + longitudeY + ")";
+                if(j+3 < list_walls.size()) {
+                    walls = walls + ",";
                 }
             }
             walls = walls + ")";
+            System.out.println("name_place : " + name_place);
+            System.out.println("area : " + area);
+            System.out.println("walls : " + walls);
+            System.out.println("building_id : " + building_id);
 
             try {
                 //URL POUR RENTRER UNE PLACE
