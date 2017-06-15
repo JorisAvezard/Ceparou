@@ -3,14 +3,15 @@ package service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import metier.entities.Building;
+import metier.entities.Coordinate;
 import metier.entities.ExecuteQuery;
 import metier.entities.Hello;
 import metier.entities.Way;
@@ -65,17 +66,8 @@ public class WebService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public void newBuildings(@PathParam (value="name_main")String name_main, @PathParam (value="name_specific")String name_specific) {
 		System.out.println("Insert : building");
-		Building building = new Building(0, name_main, name_specific);
-		ExecuteQuery.insertBuilding(building);
+		eq.insertBuilding(name_main, name_specific);
 	}
-//	
-//	@GET
-//	@Path("/insertPlace/{id_place}/{name_place}/{area}/{walls}/{building_id}")
-//	@Produces(MediaType.APPLICATION_JSON)
-//	public void newPlace(@PathParam (value="id_place")String id, @PathParam (value="name_place")String name, @PathParam (value="area")String area, @PathParam (value="walls")String walls, @PathParam (value="building_id")String building_id) {
-//		Place place = new Place(id, name, area, walls, building_id);
-//		ExecuteQuery.insertPlace(place);
-//	}
 //	
 //	@GET
 //	@Path("/insertPath/{id_user}/{id_building}/{id_path}/{coordinate}/{date}")
@@ -132,12 +124,13 @@ public class WebService {
 		return result;
 	}
 	
-	/*@GET
-	@Path("/savePlace/{place}")
-	public void savePlace(@PathParam (value="place")Place place) {
+	@GET
+	@Path("/savePlace/{name_place}/{area}/{walls}/{building_id}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public void savePlace(@PathParam (value="name_place")String name_place, @PathParam (value="area")String area, @PathParam (value="walls")String walls, @PathParam (value="building_id")String building_id) {
 		System.out.println("Insertion : place");
-		eq.insertPlace(place);
-	}*/
+		eq.insertPlace1(name_place, area, walls, building_id);
+	}
 	
 	@GET
 	@Path("/building")
@@ -146,6 +139,7 @@ public class WebService {
 		System.out.println("Select * : building");
 		List<Building> list_building = new ArrayList<Building>();
 		list_building = eq.selectBuilding();
+		
 		return list_building;
 	}
 }

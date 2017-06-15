@@ -10,8 +10,8 @@ public class Connection_DB {
 	private static String host = "127.0.0.1:5432";
 	private static String base = "ceparou";
 	private static String user = "postgres";
-	private static String password = "010395";
-	//private static String password = "poppy";
+	//private static String password = "010395";
+	private static String password = "poppy";
 	private static String url = "jdbc:postgresql://" + host + "/" + base;
 
 	/**
