@@ -45,4 +45,9 @@ public class Building {
         this.name_specific = name_specific;
     }
 
+    public String toString() {
+        return "Building [id_building=" + id_building + ", name_main=" + name_main + ", name_specific=" + name_specific
+                + "]";
+    }
+
 }

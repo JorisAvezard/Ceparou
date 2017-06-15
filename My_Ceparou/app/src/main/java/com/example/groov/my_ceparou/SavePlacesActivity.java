@@ -13,9 +13,11 @@ import android.widget.Spinner;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,31 +27,26 @@ import java.util.List;
  */
 
 public class SavePlacesActivity extends AppCompatActivity {
+
     Spinner spinner;
     SendRequest request = new SendRequest();
     Gson gson = new GsonBuilder().create();
-    List<Building> list_building = new ArrayList<Building>();
+    List<Building> list = new ArrayList<Building>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_save_places);
-
-        spinner = (Spinner) findViewById(R.id.spinner);
-        MyAsynTask myAsynTask = new MyAsynTask();
-        myAsynTask.execute();
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, list_building);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-
-
         Button bouton_placement = (Button) findViewById(R.id.bouton_placer);
         bouton_placement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 EditText lieu = (EditText) findViewById(R.id.edit_text_place);
                 String place = lieu.getText().toString();
+                Building building = (Building) spinner.getSelectedItem();
+                String id_building = String.valueOf(building.getId_building());
                 Intent intent = new Intent(SavePlacesActivity.this,GMActivity.class);
                 intent.putExtra(place, place);
+                intent.putExtra(id_building, id_building);
                 startActivity(intent);
             }
         });
@@ -74,13 +71,20 @@ public class SavePlacesActivity extends AppCompatActivity {
                 startActivity(new Intent(SavePlacesActivity.this, AdminActivity.class));
             }
         });
+
+
+        spinner = (Spinner) findViewById(R.id.spinner);
+        MyAsynTask myAsynTask = new MyAsynTask();
+        myAsynTask.execute();
     }
 
-    public class MyAsynTask extends AsyncTask<String, Integer, Void> {
+    public class MyAsynTask extends AsyncTask<Void, Integer, ArrayList<Building>> {
+
+        ArrayList<Building> list_building = new ArrayList<Building>();
+        Type listType = new TypeToken<ArrayList<Building>>(){}.getType();
 
         @Override
-        protected Void doInBackground(String... arg0) {
-
+        protected ArrayList doInBackground(Void... arg0) {
             try {
                 //URL POUR afficher les building
                 URL url = new URL("http://192.168.137.1:8080/Ceparou/service/building");
@@ -92,9 +96,8 @@ public class SavePlacesActivity extends AppCompatActivity {
                     // Lecture de l'inputStream dans un reader
 
                     InputStreamReader reader = new InputStreamReader(inputStream);
-                    list_building = gson.fromJson(reader, List.class);
-
-
+                    list_building = gson.fromJson(reader, listType);
+                    return list_building;
                 }
 
             } catch (Exception e) {
@@ -102,6 +105,17 @@ public class SavePlacesActivity extends AppCompatActivity {
             }
             return null;
         }
+
+        @Override
+        protected void onPostExecute(ArrayList<Building> result) {
+            for(int i=0; i < result.size(); i++) {
+                list.add(result.get(i));
+            }
+            ArrayAdapter adapter = new ArrayAdapter(SavePlacesActivity.this, android.R.layout.simple_spinner_item, list);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+        }
+
     }
 
     public class MyAsynTaskBuilding extends AsyncTask<String, Integer, Void> {
@@ -113,7 +127,7 @@ public class SavePlacesActivity extends AppCompatActivity {
             System.out.println(name_main + " / " + name_specific);
             try {
                 //URL POUR afficher les building
-                URL url = new URL("http://192.168.137.1:8080/Ceparou/service/insertBuilding" + name_main + "/" + name_specific);
+                URL url = new URL("http://192.168.137.1:8080/Ceparou/service/insertBuilding/" + name_main + "/" + name_specific);
 
                 InputStream inputStream = request.sendRequest(url);
 

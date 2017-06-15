@@ -68,6 +68,7 @@ public class GMActivity extends FragmentActivity {
     private String latitude = "0";
     private SendRequest request = new SendRequest();
     private int state = 0;
+    private int semi_state = 0;
     private List<String> list_longitude_areas = new ArrayList<String>();
     private List<String> list_latitude_areas = new ArrayList<String>();
     private List<String> list_longitude_walls = new ArrayList<String>();
@@ -176,6 +177,14 @@ public class GMActivity extends FragmentActivity {
                 list_latitude_areas.add(latitude);
                 list_longitude_areas.add(longitude);
                 state = 0;
+                if(semi_state == 0) {
+                    semi_state = 1;
+                    save_all.setEnabled(false);
+                }
+                else {
+                    semi_state = 0;
+                    save_all.setEnabled(true);
+                }
             }
         });
 
@@ -186,6 +195,14 @@ public class GMActivity extends FragmentActivity {
                 list_latitude_walls.add(latitude);
                 list_longitude_walls.add(longitude);
                 state = 1;
+                if(semi_state == 0) {
+                    semi_state = 1;
+                    save_all.setEnabled(false);
+                }
+                else {
+                    semi_state = 0;
+                    save_all.setEnabled(true);
+                }
             }
         });
 
@@ -206,9 +223,24 @@ public class GMActivity extends FragmentActivity {
                 else {
                     //Faire la requete puis retour dans la page admin
                     String name_place = getIntent().getStringExtra("place");
+                    String id_building = getIntent().getStringExtra("id_building");
                     MyAsynTask myAsyncTask = new  MyAsynTask();
                     List<String> list = new ArrayList<String>();
                     list.add(name_place);
+                    list.add(id_building);
+                    System.out.println("Affichage de la place et du building : ");
+                    for(int t = 0; t < list.size(); t++) {
+                        System.out.println(list.get(t).toString() + " ");
+                    }
+                    System.out.println("Affichage des longitudes et latitudes : ");
+                    if(list_latitude_areas.size() == list_longitude_areas.size() && list_latitude_walls.size() == list_longitude_walls.size()) {
+                        for(int s = 0; s < list_latitude_areas.size(); s++) {
+                            System.out.println(list_latitude_areas.get(s).toString() + " / " + list_longitude_areas.get(s).toString());
+                        }
+                        for(int u = 0; u < list_latitude_walls.size(); u++) {
+                            System.out.println(list_latitude_walls.get(u).toString() + " / " + list_longitude_walls.get(u).toString());
+                        }
+                    }
                     myAsyncTask.execute(list, list_latitude_areas, list_longitude_areas, list_latitude_walls, list_longitude_walls);
                     startActivity(new Intent(GMActivity.this, AdminActivity.class));
                 }
@@ -377,6 +409,11 @@ public class GMActivity extends FragmentActivity {
 
         @Override
         protected Void doInBackground(List<String>... arg0) {
+            String area = "POLYGON((";
+            String walls = "MULTILINESTRING(";
+            String name_place = arg0[0].get(0);
+            String building_id = arg0[0].get(1);
+            //On transforme tout pour avoir un type Place
             List<Coordinate> list_areas = new ArrayList<Coordinate>();
             List<Coordinate> list_walls = new ArrayList<Coordinate>();
             for(int i = 0; i < arg0[1].size(); i++) {
@@ -385,10 +422,27 @@ public class GMActivity extends FragmentActivity {
                 Coordinate coordinate_wall = new Coordinate(Double.valueOf(arg0[3].get(i)), Double.valueOf(arg0[4].get(i)));
                 list_walls.add(coordinate_wall);
             }
-            Place place = new Place(1, arg0[0].get(0), list_areas, list_walls, 0);
+            //On transforme en chaine String
+            for(int i = 0; i < list_areas.size() - 1; i++) {
+                area = area + list_areas.get(i).getLatitude() + " " + list_areas.get(i).getLongitude() + ", ";
+            }
+            area = area + list_areas.get(list_areas.size() - 1).getLatitude() + " " + list_areas.get(list_areas.size() - 1).getLongitude() + "))";
+
+            for(int j = 0; j < list_walls.size(); j+=2) {
+                double latitudeX = list_walls.get(j).getLatitude();
+                double latitudeY = list_walls.get(j+1).getLatitude();
+                double longitudeX = list_walls.get(j).getLongitude();
+                double longitudeY = list_walls.get(j+1).getLongitude();
+                walls = walls + "( " + latitudeX + " " + longitudeX + ", " + latitudeY + " " + longitudeY + ")";
+                if(list_walls.get(j+3) != null) {
+                    walls = walls + ", ";
+                }
+            }
+            walls = walls + ")";
+
             try {
                 //URL POUR RENTRER UNE PLACE
-                URL url = new URL("http://192.168.137.1:8080/Ceparou/service/savePlace/" + place);
+                URL url = new URL("http://192.168.137.1:8080/Ceparou/service/savePlace/" + name_place + "/" + area + "/" + walls + "/" + building_id);
 
                 InputStream inputStream = request.sendRequest(url);
 

@@ -111,21 +111,6 @@
             android:inputType="textEmailAddress"
             />
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="N° de téléphone :"
-            android:textStyle="bold"
-            android:textColor="#FF0000"
-            />
-        <EditText
-            android:id="@+id/edit_text_num"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:hint=""
-            android:inputType="phone"
-            />
-
         <Button
             android:id="@+id/bouton_inscription"
             android:layout_width="wrap_content"
