@@ -33,24 +33,11 @@ public class WebService {
 	}
 	
 	@GET
-	@Path("/insertUser/{pseudo}/{password}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public void newUser(@PathParam (value="pseudo")String pseudo, @PathParam (value="password")String password) {
-		System.out.println("Insertion : user");
-		eq.insertUser(pseudo, password);
-	}
-	
-	@GET
 	@Path("/inscription/{pseudo}/{password}/{fname}/{lname}/{email}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public void inscription(@PathParam (value="pseudo")String pseudo, @PathParam (value="password")String password, @PathParam (value="fname")String firstname, @PathParam (value="lname")String lastname, @PathParam (value="email")String email) {
 		System.out.println("Insertion : user");
-		eq.insertUser(pseudo, password);
-		System.out.println("Selection : user");
-		User user = eq.selectUser(pseudo, password);
-		Profile profile = new Profile(firstname, lastname, email, user.getId_user());
-		System.out.println("Insertion : profile");
-		eq.insertProfile(profile);
+		eq.insertUser(pseudo, password, firstname, lastname, email);
 	}
 	
 //	@GET
@@ -104,14 +91,14 @@ public class WebService {
 	public String connexion(@PathParam (value="pseudo")String pseudo, @PathParam (value="password")String password) {
 		System.out.println("Selection : user");
 		User user = eq.selectUser(pseudo, password);
-		String result = "{\"id_user\":\"" + user.getId_user() + "\", \"pseudo\":\""+ user.getPseudo() + "\", \"password\":\"" + user.getPassword() + "\"}";
+		String result = "{\"id_user\":\"" + user.getId_user() + "\", \"pseudo\":\""+ user.getPseudo() + "\", \"password\":\"" + user.getPassword() + "\", \"grade_user\":\"" + user.getGrade_user() + "\"}";
 		return result;
 	}
 	
 	@GET
 	@Path("/mail/{email}")
 	public String selectMail(@PathParam (value="email")String email) {
-		System.out.println("Selection : 'mail' in profile");
+		System.out.println("Selection : 'mail' in users");
 		String result = eq.selectMail(email);
 		return result;
 	}
@@ -129,7 +116,7 @@ public class WebService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public void savePlace(@PathParam (value="name_place")String name_place, @PathParam (value="area")String area, @PathParam (value="walls")String walls, @PathParam (value="building_id")String building_id) {
 		System.out.println("Insertion : place");
-		eq.insertPlace1(name_place, area, walls, building_id);
+		eq.insertPlace(name_place, area, walls, building_id);
 	}
 	
 	@GET
