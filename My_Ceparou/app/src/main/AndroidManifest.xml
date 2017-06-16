@@ -17,10 +17,10 @@
 
         <meta-data
             android:name="com.indooratlas.android.sdk.API_KEY"
-            android:value="76509f8d-2671-437c-823c-396f5757b458"/>
+            android:value="fbe34148-5c96-4f7d-aaaf-a92abf8f0a67"/>
         <meta-data
             android:name="com.indooratlas.android.sdk.API_SECRET"
-            android:value="qJsuesn81I4j7R07xlW3t04Fi7jZfL18yzo0Lwj2W2gb/U9KQCNwqXBJ1iI90lrJNMeUiAwMbRi6rCIFeNI7RPcSTcvCLNdW8Qnlm1KsYT5duMEvktzk2dd4+5pOlg=="/>
+            android:value="d4fI9L3K4O9RYuShS/XJuMf3FE4udDuK9bH1H99FiQ6Qb4i+ZiaxyFmBOuNtnvgoR6FDYrPNl4EJPmF5PoBUUcfW2F0GT+YQxgnUYxU7MPLvgVcFeg3C5UCW6yyeUQ=="/>
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value=" AIzaSyB3fL_jVhaZ8YtUH7Fe1Z3yPiwtpfZ5R0s "/>
