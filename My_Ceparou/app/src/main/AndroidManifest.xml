@@ -30,14 +30,15 @@
             android:label="IALocationService"
             android:exported="false"></service>
 
-        <activity android:name=".AdminActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"/>
+        <activity android:name=".AdminActivity"/>
+        <activity android:name=".GMClientActivity"/>
         <activity android:name=".SavePlacesActivity"/>
         <activity android:name=".GMActivity"/>
         <activity android:name=".MoteurActivity"/>

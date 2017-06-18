@@ -86,10 +86,15 @@ public class MainActivity extends AppCompatActivity {
                     user = gson.fromJson(reader, User.class);
                     if (user.getPseudo().equals(pseudo) && (user.getPassword().equals(mdp)) && acc.equals("1")) {
                         //lancer une session
-                        /*Rajouter un if pour si user.getGrade_user().equals("admin") alors lancer AdminActivity,
-                        * Sinon lancer ActivityNormale (nom à définir ultérieurement). Faire des pops !*/
-                        System.out.println("Connexion réussie");
-                        startActivity(new Intent(MainActivity.this, MoteurActivity.class));
+                        // Faire des pops !
+                        if(user.getGrade_user().equals("admin")) {
+                            System.out.println("Connexion réussie");
+                            startActivity(new Intent(MainActivity.this, AdminActivity.class));
+                        }
+                        else {
+                            System.out.println("Connexion réussie");
+                            startActivity(new Intent(MainActivity.this, MoteurActivity.class));
+                        }
                     } else {
                         System.out.println("Connexion ratée");
                         startActivity(new Intent(MainActivity.this, PopConnexionActivity.class));

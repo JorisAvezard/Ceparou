@@ -34,6 +34,14 @@ public class AdminActivity extends AppCompatActivity{
                 startActivity(new Intent(AdminActivity.this, SavePlacesActivity.class));
             }
         });
+
+        Button apriori = (Button) findViewById(R.id.apriori_from_admin);
+        apriori.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //ALGO APRIORI
+            }
+        });
     }
 
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {

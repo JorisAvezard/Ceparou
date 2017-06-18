@@ -49,7 +49,7 @@ public class MoteurActivity extends AppCompatActivity {
                     System.out.println("Affichage choisi:Plan ");
                 }
                 //ouvrir sur une nouvelle fenêtre ?
-                startActivity(new Intent(MoteurActivity.this, MoteurActivity.class));
+                startActivity(new Intent(MoteurActivity.this, GMClientActivity.class));
             }
         });
 
