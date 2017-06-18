@@ -129,4 +129,59 @@ public class WebService {
 		
 		return list_building;
 	}
+	
+	@GET
+	@Path("/selectIdP/{user_id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String selectIdPlace(@PathParam (value="user_id")String id) {
+		System.out.println("Select id_place : places");
+		String lastId = eq.lastPlaceForId(id);
+		return lastId;
+	}
+	
+	@GET
+	@Path("/selectIdP/{latitude}/{longitude}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String selectIdPlaceWithCoord(@PathParam (value="latitude")double X, @PathParam (value="longitude")double Y) {
+		System.out.println("Select id_place : places");
+		String id = eq.placeWithCoord(X, Y);
+		return id;
+	}
+	
+	@GET
+	@Path("/selectIdB/{latitude}/{longitude}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String selectIdBuildingWithCoord(@PathParam (value="latitude")double X, @PathParam (value="longitude")double Y) {
+		System.out.println("Select id_building : places");
+		String id = eq.buildingWithCoord(X, Y);
+		return id;
+	}
+	
+	@GET
+	@Path("/newID")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String newId() {
+		System.out.println("Select max(id_p) : paths2");
+		String newId = eq.newId();
+		return newId;
+	}
+	
+	@GET
+	@Path("/newCoord")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String newCoord() {
+		System.out.println("Select max(id_c) : paths2");
+		String lastId = eq.newCoord();
+		return lastId;
+	}
+	
+	@GET
+	@Path("/newPath/{idPath}/{idCoord}/{latitude}/{longitude}/{date}/{idUser}/{idBuilding}/")
+	public void NewPath(@PathParam (value="idPath")String idPath, @PathParam (value="idCoord")String idCoord, 
+			@PathParam (value="latitude")String latitude, @PathParam (value="longitude")String longitude, 
+			@PathParam (value="date")String date, @PathParam (value="idUser")String idUser, 
+			@PathParam (value="idBuilding")String idBuilding) {
+		System.out.println("Insertion : path");
+		eq.InsertPath(idPath, idCoord, latitude, longitude, date, idUser, idBuilding);
+	}
 }

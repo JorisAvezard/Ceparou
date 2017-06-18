@@ -15,7 +15,7 @@ public class ExecuteQuery {
 	 */
 	public void insertUser(String pseudo, String password, String firstname, String lastname, String email) {
 		try {
-			String insertUsersQuery = "INSERT INTO android.users (pseudo, password, firstname, lastname, email) VALUES (?,?,?,?,?)";
+			String insertUsersQuery = "INSERT INTO android.users (pseudo, password, firstname, lastname, email, grade_user) VALUES (?,?,?,?,?,?)";
 			
 			Connection dbConnection = Connection_DB.getConnection();
 			PreparedStatement preparedStatement = dbConnection.prepareStatement(insertUsersQuery);
@@ -25,6 +25,7 @@ public class ExecuteQuery {
 			preparedStatement.setString(3, firstname);
 			preparedStatement.setString(4, lastname);
 			preparedStatement.setString(5, email);
+			preparedStatement.setString(6, "client");
 			
 			preparedStatement.executeUpdate();
 			
@@ -175,5 +176,133 @@ public class ExecuteQuery {
 		return list_building;
 	}
 	
+	public String lastPlaceForId(String id) {
+		String lastId = "";
+		try {
+			String selectIdQuery = "SELECT id_place FROM android.places WHERE date_time = (SELECT max(date_time) FROM android.paths WHERE user_id = ?)";
+			Connection dbConnection;
+			dbConnection = Connection_DB.getConnection();
+			
+			PreparedStatement preparedStatement = dbConnection.prepareStatement(selectIdQuery);
+			preparedStatement.setInt(1, Integer.parseInt(id));
+			
+			ResultSet result = preparedStatement.executeQuery();
+			while (result.next()) {
+				lastId = String.valueOf(result.getInt("id_place"));
+			}
+			preparedStatement.close();
+		} catch(SQLException se) {
+			System.err.println(se.getMessage());
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return lastId;
+	}
+	
+	public String placeWithCoord(Double X, Double Y) {
+		String place_id = "";
+		try {
+			String selectIdQuery = "SELECT id_place FROM android.places WHERE ST_Within('POINT(" + X + " " + Y + ")', area)='true'";
+			Connection dbConnection;
+			dbConnection = Connection_DB.getConnection();
+			
+			PreparedStatement preparedStatement = dbConnection.prepareStatement(selectIdQuery);
+			
+			ResultSet result = preparedStatement.executeQuery();
+			while (result.next()) {
+				place_id = String.valueOf(result.getInt("id_place"));
+			}
+			preparedStatement.close();
+		} catch(SQLException se) {
+			System.err.println(se.getMessage());
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return place_id;
+	}
+	
+	public String buildingWithCoord(Double X, Double Y) {
+		String id_Building = "";
+		try {
+			String selectIdQuery = "SELECT building_id FROM android.places WHERE ST_Within('POINT(" + X + " " + Y + ")', area)='true'";
+			Connection dbConnection;
+			dbConnection = Connection_DB.getConnection();
+			
+			PreparedStatement preparedStatement = dbConnection.prepareStatement(selectIdQuery);
+			
+			ResultSet result = preparedStatement.executeQuery();
+			while (result.next()) {
+				id_Building = String.valueOf(result.getInt("building_id"));
+			}
+			preparedStatement.close();
+		} catch(SQLException se) {
+			System.err.println(se.getMessage());
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return id_Building;
+	}
+	
+	public String newId() {
+		String new_id = "";
+		try {
+			String selectIdQuery = "SELECT MAX(id_path)+1 FROM android.paths2";
+			Connection dbConnection;
+			dbConnection = Connection_DB.getConnection();
+			
+			PreparedStatement preparedStatement = dbConnection.prepareStatement(selectIdQuery);
+			
+			ResultSet result = preparedStatement.executeQuery();
+			while (result.next()) {
+				new_id = String.valueOf(result.getInt("id_path"));
+			}
+			preparedStatement.close();
+		} catch(SQLException se) {
+			System.err.println(se.getMessage());
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return new_id;
+	}
+	
+	public String newCoord() {
+		String new_coord = "";
+		try {
+			String selectIdQuery = "SELECT MAX(id_coord)+1 FROM android.paths2";
+			Connection dbConnection;
+			dbConnection = Connection_DB.getConnection();
+			
+			PreparedStatement preparedStatement = dbConnection.prepareStatement(selectIdQuery);
+			
+			ResultSet result = preparedStatement.executeQuery();
+			while (result.next()) {
+				new_coord = String.valueOf(result.getInt("id_coord"));
+			}
+			preparedStatement.close();
+		} catch(SQLException se) {
+			System.err.println(se.getMessage());
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return new_coord;
+	}
+	
+	public void InsertPath(String idPath, String idCoord, String latitude, String longitude, String date, String idUser, String idBuilding) {
+		try {
+			String selectPathQuery = "INSERT INTO android.paths2 (id_path, id_coord, coordinates, date_time, user_id, building_id) VALUES(" + idPath + ", " + idCoord + ", 'POINT(" + latitude + " " + longitude + ")', '" + date + "', " + idUser + ", " + idBuilding + ")";
+			Connection dbConnection;
+			dbConnection = Connection_DB.getConnection();
+			
+			PreparedStatement preparedStatement = dbConnection.prepareStatement(selectPathQuery);
+			
+			preparedStatement.executeUpdate();
+			
+			preparedStatement.close();
+		} catch(SQLException se) {
+			System.err.println(se.getMessage());
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
 	
 }
