@@ -19,6 +19,9 @@ public class MoteurActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_moteur);
 
+        Bundle extras = getIntent().getExtras();
+        final int id_client = extras.getInt("id_client");
+
         Button bouton_page_parametres_from_moteur = (Button) findViewById(R.id.bouton_page_parametres_from_moteur);
         bouton_page_parametres_from_moteur.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,8 +51,9 @@ public class MoteurActivity extends AppCompatActivity {
                 }else{
                     System.out.println("Affichage choisi:Plan ");
                 }
-                //ouvrir sur une nouvelle fenêtre ?
-                startActivity(new Intent(MoteurActivity.this, GMClientActivity.class));
+                Intent intent = new Intent(MoteurActivity.this,GMClientActivity.class);
+                intent.putExtra("id_client", id_client);
+                startActivity(intent);
             }
         });
 

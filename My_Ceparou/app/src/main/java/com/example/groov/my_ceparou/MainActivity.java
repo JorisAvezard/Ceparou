@@ -93,7 +93,9 @@ public class MainActivity extends AppCompatActivity {
                         }
                         else {
                             System.out.println("Connexion réussie");
-                            startActivity(new Intent(MainActivity.this, MoteurActivity.class));
+                            Intent intent = new Intent(MainActivity.this,MoteurActivity.class);
+                            intent.putExtra("id_client", user.getId_user());
+                            startActivity(intent);
                         }
                     } else {
                         System.out.println("Connexion ratée");

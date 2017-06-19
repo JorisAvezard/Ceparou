@@ -19,6 +19,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.indooratlas.android.sdk.IALocation;
 import com.indooratlas.android.sdk.IALocationListener;
 import com.indooratlas.android.sdk.IALocationManager;
@@ -37,8 +38,10 @@ import com.squareup.picasso.Target;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.net.URL;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 
 /**
@@ -77,6 +80,7 @@ public class GMClientActivity extends AppCompatActivity {
     boolean test = true;
     SendRequest sendRequest = new SendRequest();
     Gson gson = new GsonBuilder().create();
+    final int id_client = extras.getInt("id_client");
 
     private IALocationListener mListener = new IALocationListenerSupport() {
 
@@ -529,6 +533,42 @@ public class GMClientActivity extends AppCompatActivity {
         protected void onPostExecute(Boolean bool) {
             test = bool;
 
+        }
+    }
+
+    public class MyAsynTaskPrediction extends AsyncTask<Integer, Integer, ArrayList> {
+
+
+        @Override
+        protected ArrayList doInBackground(Integer... arg0) {
+            int id_user = arg0[0];
+            ArrayList<String> list = new ArrayList<String>();
+            Type listType = new TypeToken<ArrayList<Building>>(){}.getType();
+
+            try {
+                //URL POUR afficher les building
+                URL url = new URL("http://192.168.137.1:8080/Ceparou/service/predict/" + id_user);
+
+                InputStream inputStream = sendRequest.sendRequest(url);
+
+                // Vérification de l'inputStream
+                if (inputStream != null) {
+                    // Lecture de l'inputStream dans un reader
+                    InputStreamReader reader = new InputStreamReader(inputStream);
+                    list = gson.fromJson(reader, listType);
+                    return list;
+
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList result) {
+            //QUE FAIT-ON DU RESULTAT ?
         }
     }
 
