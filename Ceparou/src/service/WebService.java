@@ -10,11 +10,18 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import database.JdbcPersistence;
+import ia.CreateApriori;
+import ia.Engine;
+import ia.IA;
+import ia.Results;
 import metier.entities.Building;
 import metier.entities.Coordinate;
 import metier.entities.ExecuteQuery;
 import metier.entities.Hello;
 import metier.entities.Way;
+import weka.associations.AssociationRules;
+import weka.core.Instances;
 import metier.entities.Place;
 import metier.entities.Profile;
 import metier.entities.User;
@@ -24,6 +31,7 @@ public class WebService {
 	
 	private Hello hello = new Hello();
 	private ExecuteQuery eq = new ExecuteQuery();
+	private Results results = new Results();
 	
 	@GET
 	@Path("/coucou/{nom}/{heure}")
@@ -183,5 +191,33 @@ public class WebService {
 			@PathParam (value="idBuilding")String idBuilding) {
 		System.out.println("Insertion : path");
 		eq.InsertPath(idPath, idCoord, latitude, longitude, date, idUser, idBuilding);
+	}
+	
+	@GET
+	@Path("/apriori")
+	public void aPriori() throws Exception{
+		CreateApriori apriori = new CreateApriori();
+		JdbcPersistence persistence = new JdbcPersistence();
+		IA ia = new IA();
+		Engine engine = new Engine();
+		Instances dataSet;
+		AssociationRules AssociationRules = new AssociationRules(null);
+		dataSet = apriori.getInstance();
+		AssociationRules = ia.getAllRules(dataSet);
+		
+		ArrayList<ArrayList<String>> premises = engine.premisesToArray(AssociationRules);
+		ArrayList<ArrayList<String>> consequences = engine.consequenceToArray(AssociationRules);
+		
+		ArrayList<ArrayList<String>> rules = engine.getRules(premises, consequences);
+		persistence.addRuleV2(rules);
+	}
+	
+	@GET
+	@Path("/predict/{id_user}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ArrayList<String> predict(@PathParam (value="id_user")int id_user) {
+		ArrayList<String> predict = new ArrayList<String>();
+		predict = results.predict(id_user);
+		return predict;
 	}
 }
