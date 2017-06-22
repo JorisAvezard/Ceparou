@@ -28,7 +28,7 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Une première information"
+            android:text="Nom :"
             android:textStyle="bold"
             android:textColor="#1a2094"
             android:gravity="left"
@@ -37,14 +37,14 @@
             android:id="@+id/textView_info_1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Affichage de la première information"
+            android:text=""
             android:textStyle="bold"
             android:gravity="left"
             />
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Encore une autre "
+            android:text="Prénom :"
             android:textStyle="bold"
             android:textColor="#1a2094"
             android:gravity="left"
@@ -53,7 +53,7 @@
             android:id="@+id/textView_info_2"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Affichage d'une autre information"
+            android:text=""
             android:textStyle="bold"
             android:gravity="left"
             />
@@ -79,7 +79,7 @@
             android:id="@+id/textView_mail"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="récupérer et écrire le mail"
+            android:text=""
             android:textStyle="bold"
             android:gravity="left"
             />

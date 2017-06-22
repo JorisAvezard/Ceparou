@@ -15,16 +15,32 @@
         android:orientation="vertical"
         android:id="@+id/linearLayout">
 
+    <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:id="@+id/gridLayout_bouton"
+        android:weightSum="1">
+
         <Button
             android:id="@+id/bouton_page_parametres_from_moteur"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@mipmap/parametres100"
             android:text="Paramètres"
-            android:layout_gravity="right"
             android:textSize="10dp"
             android:textStyle="italic"
-            android:background="@mipmap/parametres100"
-            />
+            android:layout_gravity="left"/>
+
+        <Button
+            android:id="@+id/bouton_deconnexion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/deco2"
+            android:text=""
+            android:textSize="10dp"
+            android:textStyle="italic" />
+    </GridLayout>
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -34,21 +50,14 @@
             android:gravity="left"
             />
         <TextView
-            android:id="@+id/affichage_position"
+            android:id="@+id/lat_lng"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Ici on affichera votre position une fois celle-ci récupérée"
+            android:text=""
             android:textSize="20dp"
             android:textStyle="bold"
             android:textColor="#1a2094"
             android:gravity="left"
-            />
-        <EditText
-            android:id="@+id/edit_text_position"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:hint="Pour l'instant on la demande pour tester notre algo"
-            android:inputType="text"
             />
         <TextView
             android:layout_width="fill_parent"
@@ -57,47 +66,32 @@
             android:textStyle="bold"
             android:textColor="#FF0000"
             />
+        <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:id="@+id/gridLayout_recherche"
+            android:weightSum="1">
         <EditText
             android:id="@+id/edit_text_recherche"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="Mot-clef / Destination"
             android:inputType="text"
             />
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
-            <Button
-                android:id="@+id/bouton_calcul"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Trouver mon chemin"
-                />
-            <Button
-                android:id="@+id/bouton_raz"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Réinitialiser"
-                />
-        </LinearLayout>
-        <TextView
-            android:id="@+id/result"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Vous devez cliquer sur le bouton « Trouver mon chemin » pour obtenir un résultat."
-            />
         <Button
-            android:id="@+id/bouton_deconnexion"
+            android:id="@+id/bouton_calcul"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
-            android:layout_gravity="right"
-            android:textSize="10dp"
-            android:textStyle="italic"
-            android:background="@mipmap/deco"
-            />
+            android:text="Y aller" />
+        </GridLayout>
+
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="400sp"
+            tools:context=".GMActivity" />
 
     </LinearLayout>
 
