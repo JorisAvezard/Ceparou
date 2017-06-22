@@ -1,0 +1,1 @@
+include ':app', ':jsr311-api-1.1.1', ':jersey-client-1.14'
