@@ -15,7 +15,7 @@ public class ExecuteQuery {
 	 */
 	public void insertUser(String pseudo, String password, String firstname, String lastname, String email) {
 		try {
-			String insertUsersQuery = "INSERT INTO android.users (pseudo, password, firstname, lastname, email, grade_user) VALUES (?,?,?,?,?,?)";
+			String insertUsersQuery = "INSERT INTO android.users (pseudo, password, firstname, lastname, email, grade_user) VALUES (?,?,?,?,?,'client')";
 			
 			Connection dbConnection = Connection_DB.getConnection();
 			PreparedStatement preparedStatement = dbConnection.prepareStatement(insertUsersQuery);
@@ -25,7 +25,6 @@ public class ExecuteQuery {
 			preparedStatement.setString(3, firstname);
 			preparedStatement.setString(4, lastname);
 			preparedStatement.setString(5, email);
-			preparedStatement.setString(6, "client");
 			
 			preparedStatement.executeUpdate();
 			
@@ -176,10 +175,10 @@ public class ExecuteQuery {
 		return list_building;
 	}
 	
-	public String lastPlaceForId(String id) {
+	public String coordinatesWithId(String id) {
 		String lastId = "";
 		try {
-			String selectIdQuery = "SELECT id_place FROM android.places WHERE date_time = (SELECT max(date_time) FROM android.paths WHERE user_id = ?)";
+			String selectIdQuery = "SELECT ST_X(ST_AsText(coordinates)) as X, ST_Y(ST_AsText(coordinates)) as Y FROM android.paths WHERE date_time = (SELECT max(date_time) FROM android.paths WHERE user_id = ?)";
 			Connection dbConnection;
 			dbConnection = Connection_DB.getConnection();
 			
@@ -188,7 +187,8 @@ public class ExecuteQuery {
 			
 			ResultSet result = preparedStatement.executeQuery();
 			while (result.next()) {
-				lastId = String.valueOf(result.getInt("id_place"));
+				lastId += result.getString("X");
+				lastId += "-" + result.getString("Y");
 			}
 			preparedStatement.close();
 		} catch(SQLException se) {
@@ -200,7 +200,29 @@ public class ExecuteQuery {
 	}
 	
 	public String placeWithCoord(Double X, Double Y) {
-		String place_id = "";
+		String name_place = "";
+		try {
+			String selectIdQuery = "SELECT name_place FROM android.places WHERE ST_Within('POINT(" + X + " " + Y + ")', area)='true'";
+			Connection dbConnection;
+			dbConnection = Connection_DB.getConnection();
+			
+			PreparedStatement preparedStatement = dbConnection.prepareStatement(selectIdQuery);
+			
+			ResultSet result = preparedStatement.executeQuery();
+			while (result.next()) {
+				name_place = result.getString("name_place").trim();
+			}
+			preparedStatement.close();
+		} catch(SQLException se) {
+			System.err.println(se.getMessage());
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return name_place;
+	}
+	
+	public String idPlaceWithCoord(Double X, Double Y) {
+		String id_place = "";
 		try {
 			String selectIdQuery = "SELECT id_place FROM android.places WHERE ST_Within('POINT(" + X + " " + Y + ")', area)='true'";
 			Connection dbConnection;
@@ -210,7 +232,7 @@ public class ExecuteQuery {
 			
 			ResultSet result = preparedStatement.executeQuery();
 			while (result.next()) {
-				place_id = String.valueOf(result.getInt("id_place"));
+				id_place = String.valueOf(result.getInt("id_place"));
 			}
 			preparedStatement.close();
 		} catch(SQLException se) {
@@ -218,7 +240,7 @@ public class ExecuteQuery {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		return place_id;
+		return id_place;
 	}
 	
 	public String buildingWithCoord(Double X, Double Y) {
@@ -246,7 +268,7 @@ public class ExecuteQuery {
 	public String newId() {
 		String new_id = "";
 		try {
-			String selectIdQuery = "SELECT MAX(id_path)+1 FROM android.paths2";
+			String selectIdQuery = "SELECT MAX(id_path)+1 as idMax FROM android.paths";
 			Connection dbConnection;
 			dbConnection = Connection_DB.getConnection();
 			
@@ -254,7 +276,7 @@ public class ExecuteQuery {
 			
 			ResultSet result = preparedStatement.executeQuery();
 			while (result.next()) {
-				new_id = String.valueOf(result.getInt("id_path"));
+				new_id = String.valueOf(result.getInt("idMax"));
 			}
 			preparedStatement.close();
 		} catch(SQLException se) {
@@ -268,7 +290,7 @@ public class ExecuteQuery {
 	public String newCoord() {
 		String new_coord = "";
 		try {
-			String selectIdQuery = "SELECT MAX(id_coord)+1 FROM android.paths2";
+			String selectIdQuery = "SELECT MAX(id_coord)+1 as maxCoord FROM android.paths";
 			Connection dbConnection;
 			dbConnection = Connection_DB.getConnection();
 			
@@ -276,7 +298,7 @@ public class ExecuteQuery {
 			
 			ResultSet result = preparedStatement.executeQuery();
 			while (result.next()) {
-				new_coord = String.valueOf(result.getInt("id_coord"));
+				new_coord = String.valueOf(result.getInt("maxCoord"));
 			}
 			preparedStatement.close();
 		} catch(SQLException se) {
@@ -289,7 +311,7 @@ public class ExecuteQuery {
 	
 	public void InsertPath(String idPath, String idCoord, String latitude, String longitude, String date, String idUser, String idBuilding) {
 		try {
-			String selectPathQuery = "INSERT INTO android.paths2 (id_path, id_coord, coordinates, date_time, user_id, building_id) VALUES(" + idPath + ", " + idCoord + ", 'POINT(" + latitude + " " + longitude + ")', '" + date + "', " + idUser + ", " + idBuilding + ")";
+			String selectPathQuery = "INSERT INTO android.paths (id_path, id_coord, coordinates, date_time, user_id, building_id) VALUES(" + idPath + ", " + idCoord + ", 'POINT(" + latitude + " " + longitude + ")', '" + date + "', " + idUser + ", " + idBuilding + ")";
 			Connection dbConnection;
 			dbConnection = Connection_DB.getConnection();
 			

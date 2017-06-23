@@ -64,10 +64,11 @@ public class CreateApriori {
 		dataSet = new Instances("Generate rules automatically", attributes, 0);
 		ArrayList<ArrayList<String>> paths = new ArrayList<ArrayList<String>>();
 		paths = en.getAllPAths();
-
 		for (int k = 0; k < paths.size(); k++) {
+//			System.out.println("k : " + k);
 			Instance inst = new DenseInstance(longPaths);
 			for (int h = 0; h < paths.get(k).size(); h++) {
+//				System.out.println("h : " + h);
 				inst.setValue((Attribute) attributes.get(h), paths.get(k).get(h));
 			}
 			dataSet.add(inst);

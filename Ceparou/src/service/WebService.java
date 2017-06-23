@@ -14,7 +14,7 @@ import database.JdbcPersistence;
 import ia.CreateApriori;
 import ia.Engine;
 import ia.IA;
-import ia.Results;
+import ia.TestPrediction;
 import metier.entities.Building;
 import metier.entities.Coordinate;
 import metier.entities.ExecuteQuery;
@@ -31,7 +31,7 @@ public class WebService {
 	
 	private Hello hello = new Hello();
 	private ExecuteQuery eq = new ExecuteQuery();
-	private Results results = new Results();
+	private TestPrediction testPrediction = new TestPrediction();
 	
 	@GET
 	@Path("/coucou/{nom}/{heure}")
@@ -143,17 +143,25 @@ public class WebService {
 	@Produces(MediaType.APPLICATION_JSON)
 	public String selectIdPlace(@PathParam (value="user_id")String id) {
 		System.out.println("Select id_place : places");
-		String lastId = eq.lastPlaceForId(id);
-		return lastId;
+		String lastId = eq.coordinatesWithId(id);
+		if (!lastId.equals("")) {
+			String[] coord = lastId.split("-");
+			System.out.println("X : " + coord[0] + ", Y : " + coord[1]);
+			String id_place = eq.idPlaceWithCoord(Double.valueOf(coord[0]), Double.valueOf(coord[1]));
+			return id_place;
+		}
+		else {
+			return "0";
+		}
 	}
 	
 	@GET
-	@Path("/selectIdP/{latitude}/{longitude}")
+	@Path("/selectIdPName/{latitude}/{longitude}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String selectIdPlaceWithCoord(@PathParam (value="latitude")double X, @PathParam (value="longitude")double Y) {
-		System.out.println("Select id_place : places");
-		String id = eq.placeWithCoord(X, Y);
-		return id;
+	public String selectNamePlaceWithCoord(@PathParam (value="latitude")double X, @PathParam (value="longitude")double Y) {
+		System.out.println("Select name_place : places");
+		String name_place = eq.placeWithCoord(X, Y);
+		return name_place;
 	}
 	
 	@GET
@@ -166,11 +174,23 @@ public class WebService {
 	}
 	
 	@GET
+	@Path("/selectIdPlace/{latitude}/{longitude}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String selectIdPlaceWithCoord(@PathParam (value="latitude")double X, @PathParam (value="longitude")double Y) {
+		System.out.println("Select id_place : places");
+		String id = eq.idPlaceWithCoord(X, Y);
+		return id;
+	}
+	
+	@GET
 	@Path("/newID")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String newId() {
-		System.out.println("Select max(id_p) : paths2");
+		System.out.println("Select max(id_p) : paths");
 		String newId = eq.newId();
+		if(newId == null) {
+			newId = "1";
+		}
 		return newId;
 	}
 	
@@ -178,8 +198,11 @@ public class WebService {
 	@Path("/newCoord")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String newCoord() {
-		System.out.println("Select max(id_c) : paths2");
+		System.out.println("Select max(id_c) : paths");
 		String lastId = eq.newCoord();
+		if(lastId == null) {
+			lastId = "1";
+		}
 		return lastId;
 	}
 	
@@ -196,28 +219,29 @@ public class WebService {
 	@GET
 	@Path("/apriori")
 	public void aPriori() throws Exception{
-		CreateApriori apriori = new CreateApriori();
-		JdbcPersistence persistence = new JdbcPersistence();
+		CreateApriori ca = new CreateApriori();
+		JdbcPersistence jp = new JdbcPersistence();
 		IA ia = new IA();
-		Engine engine = new Engine();
+		Engine en = new Engine();
+		ArrayList<String> test = new ArrayList<String>();
 		Instances dataSet;
-		AssociationRules AssociationRules = new AssociationRules(null);
-		dataSet = apriori.getInstance();
-		AssociationRules = ia.getAllRules(dataSet);
+		AssociationRules ars = new AssociationRules(null);
+		dataSet = ca.getInstance();
+		ars = ia.getAllRules(dataSet);
 		
-		ArrayList<ArrayList<String>> premises = engine.premisesToArray(AssociationRules);
-		ArrayList<ArrayList<String>> consequences = engine.consequenceToArray(AssociationRules);
+		ArrayList<ArrayList<String>> premises = en.premisesToArray(ars);
+		ArrayList<ArrayList<String>> consequences = en.consequenceToArray(ars);
 		
-		ArrayList<ArrayList<String>> rules = engine.getRules(premises, consequences);
-		persistence.addRuleV2(rules);
+		ArrayList<ArrayList<String>> rules = en.getRules(premises, consequences);
+		jp.addRuleV2(rules);
 	}
 	
 	@GET
 	@Path("/predict/{id_user}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ArrayList<String> predict(@PathParam (value="id_user")int id_user) {
-		ArrayList<String> predict = new ArrayList<String>();
-		predict = results.predict(id_user);
+	public ArrayList<String> prediction(@PathParam (value="id_user")int id_user) {
+		ArrayList<String> predict=new ArrayList<String>();
+		predict=testPrediction.predict(1);
 		return predict;
-	}
+	} 
 }

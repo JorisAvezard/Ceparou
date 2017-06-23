@@ -164,13 +164,16 @@ public class Engine {
 	 */
 	public ArrayList<ArrayList<String>> getAllPAths(){
 		JdbcPersistence simulation = new JdbcPersistence();
+//		System.out.println(simulation.countTotalPath());
 		int totalPaths = simulation.countTotalPath();
 		ArrayList<ArrayList<String>> paths = new ArrayList<ArrayList<String>>();
 		
 		for(int i=1;i<=totalPaths;i++){
 			ArrayList<String> tempPaths = new ArrayList<String>();
+			if(simulation.getPath(i).size()>0){
 			tempPaths = getDinstinctPlacesFromPath(simulation.getPath(i));
 			paths.add(tempPaths);
+			}
 		}
 		
 //		for(int j=0;j<paths.size();j++){
@@ -245,7 +248,7 @@ public class Engine {
 			tmp_bis.add(String.valueOf(indice_rule));
 			tmp_bis.add(SplitId(entry_modified));
 			tmp_bis.add(SplitAttribute(entry_modified));
-//			 tmp.add(String.valueOf(ar.getPrimaryMetricValue()));
+			tmp_bis.add(String.valueOf(ar.getPrimaryMetricValue()));
 	         result.add(tmp_bis);
 	         indice_rule++;
 		 }
@@ -270,17 +273,71 @@ public class Engine {
 					tmp.add(p_entry.get(i).get(2));
 					tmp.add(c_entry.get(j).get(1));
 					tmp.add(c_entry.get(j).get(2));
+					tmp.add(c_entry.get(j).get(3));
 					result.add(tmp);
 				}
 			}
 		}
 		
 		for(int j=0;j<result.size();j++){
-		System.out.println(result.get(j).get(0) + "	" + result.get(j).get(1) + "	" + result.get(j).get(2) + "	" + result.get(j).get(3) + "	" + result.get(j).get(4));
+		System.out.println(result.get(j).get(0) + "	" + result.get(j).get(1) + "	" + result.get(j).get(2) + "	" + result.get(j).get(3) + "	" + result.get(j).get(4) + "	" + result.get(j).get(5));
 		}
 		
 		return result;
 	}
 	
+	/**
+	 * Vérifie s'il y a au moins une virgule dans le texre en entrée
+	 * @param entry
+	 * @return
+	 */
+	public boolean isCorridor(String entry){
+		char[] entrybis = entry.toCharArray();
+		
+		for (int a = 0; a < entrybis.length; a++) {
+			if (entrybis[a] == 'C')
+				return true;
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * 
+	 * Utiliser cette méthode pour tracer le chemin sur l'application android
+	 * Sinon utiliser createPath dans JdbcPersistence.java
+	 * 
+	 * @param x1
+	 *            : latitude point de départ
+	 * @param y1
+	 *            : longitude point de départ
+	 * @param x2
+	 *            : latitude point d'arrivée
+	 * @param y2
+	 *            : longitude point d'arrivée
+	 * @return : liste de liste (nom du couloir, la latitude de son centre, la
+	 *         longitude de son centre)
+	 */
+	public ArrayList<ArrayList<String>> showCorridors(double x1,double y1, double x2,double y2){
+		JdbcPersistence jp = new JdbcPersistence();
+		
+		String room_start = jp.getNamePlaceFromCoord(x1, y1);
+//		System.out.println("départ: " + room_start);
+		String room_end = jp.getNamePlaceFromCoord(x2, y2);
+//		System.out.println("arrivée: " + room_end);
+		String corridor_start = jp.getCorridor(room_start);
+//		System.out.println(" couloir départ: " + corridor_start);
+		String corridor_end = jp.getCorridor(room_end);
+//		System.out.println("couloir arrivée: " + corridor_end);
+		ArrayList<String> coord_corridor_start = jp.getCoorPlace(corridor_start);
+		ArrayList<String> coord_corridor_end = jp.getCoorPlace(corridor_end);
+		
+		ArrayList<ArrayList<String>> results = jp.createPathCorridors(Double.valueOf(coord_corridor_start.get(0)),
+				Double.valueOf(coord_corridor_start.get(1)),
+				Double.valueOf(coord_corridor_end.get(0)),
+				Double.valueOf(coord_corridor_end.get(1)));
+		
+		return results;
+	}
 	
 }

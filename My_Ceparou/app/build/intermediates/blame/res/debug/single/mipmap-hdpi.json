@@ -1,0 +1,38 @@
+[
+    {
+        "merged": "C:\\Users\\Joris\\Desktop\\Joris\\projet\\My_Ceparou\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi\\logo_fond_blanc.png",
+        "source": "C:\\Users\\Joris\\Desktop\\Joris\\projet\\My_Ceparou\\app\\src\\main\\res\\mipmap-hdpi\\logo_fond_blanc.png"
+    },
+    {
+        "merged": "C:\\Users\\Joris\\Desktop\\Joris\\projet\\My_Ceparou\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi\\retour.png",
+        "source": "C:\\Users\\Joris\\Desktop\\Joris\\projet\\My_Ceparou\\app\\src\\main\\res\\mipmap-hdpi\\retour.png"
+    },
+    {
+        "merged": "C:\\Users\\Joris\\Desktop\\Joris\\projet\\My_Ceparou\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi\\deco2.png",
+        "source": "C:\\Users\\Joris\\Desktop\\Joris\\projet\\My_Ceparou\\app\\src\\main\\res\\mipmap-hdpi\\deco2.png"
+    },
+    {
+        "merged": "C:\\Users\\Joris\\Desktop\\Joris\\projet\\My_Ceparou\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi\\index.png",
+        "source": "C:\\Users\\Joris\\Desktop\\Joris\\projet\\My_Ceparou\\app\\src\\main\\res\\mipmap-hdpi\\index.png"
+    },
+    {
+        "merged": "C:\\Users\\Joris\\Desktop\\Joris\\projet\\My_Ceparou\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi\\ic_launcher.png",
+        "source": "C:\\Users\\Joris\\Desktop\\Joris\\projet\\My_Ceparou\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\Joris\\Desktop\\Joris\\projet\\My_Ceparou\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi\\parametres100.png",
+        "source": "C:\\Users\\Joris\\Desktop\\Joris\\projet\\My_Ceparou\\app\\src\\main\\res\\mipmap-hdpi\\parametres100.png"
+    },
+    {
+        "merged": "C:\\Users\\Joris\\Desktop\\Joris\\projet\\My_Ceparou\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi\\deco.png",
+        "source": "C:\\Users\\Joris\\Desktop\\Joris\\projet\\My_Ceparou\\app\\src\\main\\res\\mipmap-hdpi\\deco.png"
+    },
+    {
+        "merged": "C:\\Users\\Joris\\Desktop\\Joris\\projet\\My_Ceparou\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi\\inscription.png",
+        "source": "C:\\Users\\Joris\\Desktop\\Joris\\projet\\My_Ceparou\\app\\src\\main\\res\\mipmap-hdpi\\inscription.png"
+    },
+    {
+        "merged": "C:\\Users\\Joris\\Desktop\\Joris\\projet\\My_Ceparou\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi\\ic_launcher_round.png",
+        "source": "C:\\Users\\Joris\\Desktop\\Joris\\projet\\My_Ceparou\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher_round.png"
+    }
+]
