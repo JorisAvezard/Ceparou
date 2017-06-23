@@ -142,16 +142,21 @@ public class WebService {
 	@Path("/selectIdP/{user_id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String selectIdPlace(@PathParam (value="user_id")String id) {
+		String id_place = "";
 		System.out.println("Select id_place : places");
 		String lastId = eq.coordinatesWithId(id);
+		System.out.println("IdPlace(coord) : " + lastId);
 		if (!lastId.equals("")) {
 			String[] coord = lastId.split("-");
 			System.out.println("X : " + coord[0] + ", Y : " + coord[1]);
-			String id_place = eq.idPlaceWithCoord(Double.valueOf(coord[0]), Double.valueOf(coord[1]));
+			id_place = eq.idPlaceWithCoord(Double.valueOf(coord[0]), Double.valueOf(coord[1]));
+			System.out.println("IdPlace : " + id_place);
 			return id_place;
 		}
 		else {
-			return "0";
+			id_place = "-1";
+			System.out.println("IdPlace changé : " + id_place);
+			return id_place;
 		}
 	}
 	
@@ -161,6 +166,10 @@ public class WebService {
 	public String selectNamePlaceWithCoord(@PathParam (value="latitude")double X, @PathParam (value="longitude")double Y) {
 		System.out.println("Select name_place : places");
 		String name_place = eq.placeWithCoord(X, Y);
+		System.out.println("name_place : " + name_place);
+		if(name_place.equals("")) {
+			name_place = "non correspondance";
+		}
 		return name_place;
 	}
 	
@@ -170,6 +179,10 @@ public class WebService {
 	public String selectIdBuildingWithCoord(@PathParam (value="latitude")double X, @PathParam (value="longitude")double Y) {
 		System.out.println("Select id_building : places");
 		String id = eq.buildingWithCoord(X, Y);
+		System.out.println("id_Building : " + id);
+		if(id.equals("")) {
+			id = "1";
+		}
 		return id;
 	}
 	
@@ -179,6 +192,11 @@ public class WebService {
 	public String selectIdPlaceWithCoord(@PathParam (value="latitude")double X, @PathParam (value="longitude")double Y) {
 		System.out.println("Select id_place : places");
 		String id = eq.idPlaceWithCoord(X, Y);
+		System.out.println("id_place : " + id);
+		if(id.equals("")) {
+			id = "0";
+			System.out.println("id_place changé : " + id);
+		}
 		return id;
 	}
 	
@@ -188,8 +206,10 @@ public class WebService {
 	public String newId() {
 		System.out.println("Select max(id_p) : paths");
 		String newId = eq.newId();
-		if(newId == null) {
+		System.out.println("newId : " + newId);
+		if(newId.equals("0")) {
 			newId = "1";
+			System.out.println("newId changé : " + newId);
 		}
 		return newId;
 	}
@@ -200,20 +220,22 @@ public class WebService {
 	public String newCoord() {
 		System.out.println("Select max(id_c) : paths");
 		String lastId = eq.newCoord();
-		if(lastId == null) {
+		System.out.println("lastId : " + lastId);
+		if(lastId.equals("0")) {
 			lastId = "1";
+			System.out.println("lastId changé : " + lastId);
 		}
 		return lastId;
 	}
 	
 	@GET
-	@Path("/newPath/{idPath}/{idCoord}/{latitude}/{longitude}/{date}/{idUser}/{idBuilding}/")
+	@Path("/newPath/{idPath}/{idCoord}/{latitude}/{longitude}/{idUser}/{idBuilding}/")
+	@Produces(MediaType.APPLICATION_JSON)
 	public void NewPath(@PathParam (value="idPath")String idPath, @PathParam (value="idCoord")String idCoord, 
-			@PathParam (value="latitude")String latitude, @PathParam (value="longitude")String longitude, 
-			@PathParam (value="date")String date, @PathParam (value="idUser")String idUser, 
+			@PathParam (value="latitude")String latitude, @PathParam (value="longitude")String longitude, @PathParam (value="idUser")String idUser, 
 			@PathParam (value="idBuilding")String idBuilding) {
 		System.out.println("Insertion : path");
-		eq.InsertPath(idPath, idCoord, latitude, longitude, date, idUser, idBuilding);
+		//eq.InsertPath(idPath, idCoord, latitude, longitude, idUser, idBuilding);
 	}
 	
 	@GET

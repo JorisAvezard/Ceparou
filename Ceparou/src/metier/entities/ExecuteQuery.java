@@ -309,9 +309,11 @@ public class ExecuteQuery {
 		return new_coord;
 	}
 	
-	public void InsertPath(String idPath, String idCoord, String latitude, String longitude, String date, String idUser, String idBuilding) {
+	public void InsertPath(String idPath, String idCoord, String latitude, String longitude, String idUser, String idBuilding) {
 		try {
-			String selectPathQuery = "INSERT INTO android.paths (id_path, id_coord, coordinates, date_time, user_id, building_id) VALUES(" + idPath + ", " + idCoord + ", 'POINT(" + latitude + " " + longitude + ")', '" + date + "', " + idUser + ", " + idBuilding + ")";
+			String selectPathQuery = "INSERT INTO android.paths (id_path, id_coord, coordinates, date_time, user_id, building_id) "
+					+ "VALUES(" + Integer.parseInt(idPath) + ", " + Integer.parseInt(idCoord) + ", 'POINT(" + Double.valueOf(latitude) + " " + Double.valueOf(longitude) + ")', NOW(), " + Integer.parseInt(idUser) + ", " + Integer.parseInt(idBuilding) + ")";
+			System.out.println(selectPathQuery);
 			Connection dbConnection;
 			dbConnection = Connection_DB.getConnection();
 			

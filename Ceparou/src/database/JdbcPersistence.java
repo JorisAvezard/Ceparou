@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ia.Engine;
+import metier.entities.Connection_DB;
 
 import java.sql.Statement;
 
@@ -19,33 +20,6 @@ import java.sql.Statement;
  * 
  */
 public class JdbcPersistence {
-
-	private static String host = "localhost:5432";
-	private static String base = "M1_GPS";
-	private static String user = "postgres";
-	private static String password = "root";
-	private static String url = "jdbc:postgresql://" + host + "/" + base;
-
-	/**
-	 * Lazy singleton instance.
-	 */
-	private static Connection connection;
-
-	public JdbcPersistence() {
-		prepareConnection();
-	}
-
-	private void prepareConnection() {
-		if (connection == null) {
-			try {
-				Class.forName("org.postgresql.Driver");
-				connection = DriverManager.getConnection(url, user, password);
-			} catch (Exception e) {
-				System.err.println("Connection failed : " + e.getMessage());
-			}
-			// System.out.println("Opened database successfully");
-		}
-	}
 
 	/**
 	 * Compte le nombre total de chemins stockés dans la base de données
@@ -58,8 +32,8 @@ public class JdbcPersistence {
 			// Initialisation of query
 			String selectCountQuery = "SELECT p.id_path AS last FROM android.paths AS p ORDER BY id_path DESC LIMIT 1";
 
-			PreparedStatement preparedStatement = connection
-					.prepareStatement(selectCountQuery);
+			Connection connection = Connection_DB.getConnection();
+			PreparedStatement preparedStatement = connection.prepareStatement(selectCountQuery);
 			ResultSet result = preparedStatement.executeQuery();
 
 			result.next();
@@ -68,6 +42,9 @@ public class JdbcPersistence {
 			preparedStatement.close();
 		} catch (SQLException se) {
 			System.err.println(se.getMessage());
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		return count;
@@ -80,6 +57,7 @@ public class JdbcPersistence {
 			String selectCountQuery = "SELECT max(mycount)As longPath from (SELECT count(pa.id_coord) as mycount"
 					+ " FROM  android.paths AS pa group by pa.id_path )As longPath";
 
+			Connection connection = Connection_DB.getConnection();
 			PreparedStatement preparedStatement = connection
 					.prepareStatement(selectCountQuery);
 			ResultSet result = preparedStatement.executeQuery();
@@ -90,6 +68,9 @@ public class JdbcPersistence {
 			preparedStatement.close();
 		} catch (SQLException se) {
 			System.err.println(se.getMessage());
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		return count;
@@ -108,6 +89,7 @@ public class JdbcPersistence {
 					+ "' And b.id_building=pa.building_id AND b.id_building=pl.building_id "
 					+ "AND ST_Within(pa.coordinates, pl.area)='true';";
 
+			Connection connection = Connection_DB.getConnection();
 			PreparedStatement preparedStatement = connection
 					.prepareStatement(query);
 
@@ -123,6 +105,9 @@ public class JdbcPersistence {
 
 		} catch (SQLException se) {
 			System.err.println(se.getMessage());
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		// for(int i=0;i<path.size();i++){
@@ -144,6 +129,7 @@ public class JdbcPersistence {
 					+ "WHERE  b.id_building=pa.building_id AND b.id_building=pl.building_id "
 					+ "AND ST_Within(pa.coordinates, pl.area)='true';";
 
+			Connection connection = Connection_DB.getConnection();
 			PreparedStatement preparedStatement = connection
 					.prepareStatement(query);
 
@@ -160,6 +146,9 @@ public class JdbcPersistence {
 
 		} catch (SQLException se) {
 			System.err.println(se.getMessage());
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		// for(int i=0;i<path.size();i++){
@@ -174,6 +163,7 @@ public class JdbcPersistence {
 
 			String truncateQuery = "TRUNCATE TABLE android.rules";
 
+			Connection connection = Connection_DB.getConnection();
 			PreparedStatement preparedStatement = connection
 					.prepareStatement(truncateQuery);
 
@@ -183,6 +173,9 @@ public class JdbcPersistence {
 
 		} catch (SQLException se) {
 			System.err.println(se.getMessage());
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
@@ -197,6 +190,7 @@ public class JdbcPersistence {
 				String insertRuleQuery = "INSERT INTO android.rules (id_rule, premise, consequence, confidence) VALUES "
 						+ "(?, ?, ?, ?)";
 
+				Connection connection = Connection_DB.getConnection();
 				PreparedStatement preparedStatement = connection
 						.prepareStatement(insertRuleQuery);
 
@@ -213,6 +207,9 @@ public class JdbcPersistence {
 				id++;
 			} catch (SQLException se) {
 				System.err.println(se.getMessage());
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 
@@ -231,8 +228,9 @@ public class JdbcPersistence {
 			String insertRuleQuery = "INSERT INTO android.paths "
 					+ "(id_path, id_coord, coordinates, date_time, user_id, building_id) VALUES "
 					+ "(" + id_path_entry + ", " + id_coord_entry + ", 'POINT("
-					+ x + " " + y + ")', '2017-01-08 08:50:00', 1, 5)";
+					+ x + " " + y + ")', NOW(), 1, 1)";
 
+			Connection connection = Connection_DB.getConnection();
 			PreparedStatement preparedStatement = connection
 					.prepareStatement(insertRuleQuery);
 
@@ -242,6 +240,9 @@ public class JdbcPersistence {
 
 		} catch (SQLException se) {
 			System.err.println(se.getMessage());
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		System.out.println("Success insert");
@@ -256,6 +257,7 @@ public class JdbcPersistence {
 			String query = "SELECT trim(premises)AS place from android.rules "
 					+ "WHERE id_rule='" + id_rules + "';";
 
+			Connection connection = Connection_DB.getConnection();
 			PreparedStatement preparedStatement = connection
 					.prepareStatement(query);
 
@@ -271,6 +273,9 @@ public class JdbcPersistence {
 
 		} catch (SQLException se) {
 			System.err.println(se.getMessage());
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		return path;
@@ -282,6 +287,7 @@ public class JdbcPersistence {
 			// Initialisation of query
 			String selectCountQuery = "SELECT re.id_rule AS last FROM android.rules AS re ORDER BY re.id_rule DESC LIMIT 1";
 
+			Connection connection = Connection_DB.getConnection();
 			PreparedStatement preparedStatement = connection
 					.prepareStatement(selectCountQuery);
 			ResultSet result = preparedStatement.executeQuery();
@@ -292,6 +298,9 @@ public class JdbcPersistence {
 			preparedStatement.close();
 		} catch (SQLException se) {
 			System.err.println(se.getMessage());
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		return count;
@@ -307,6 +316,7 @@ public class JdbcPersistence {
 					+ "WHERE ru.consequence is not null and  id_rule='"
 					+ id_rules + "';";
 
+			Connection connection = Connection_DB.getConnection();
 			PreparedStatement preparedStatement = connection
 					.prepareStatement(query);
 
@@ -320,6 +330,9 @@ public class JdbcPersistence {
 
 		} catch (SQLException se) {
 			System.err.println(se.getMessage());
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		// for(int i=0;i<path.size();i++){
@@ -338,6 +351,7 @@ public class JdbcPersistence {
 			String query = "SELECT max(id_path) as path from android.paths "
 					+ "WHERE  user_id='" + user_id + "';";
 
+			Connection connection = Connection_DB.getConnection();
 			PreparedStatement preparedStatement = connection
 					.prepareStatement(query);
 
@@ -350,6 +364,9 @@ public class JdbcPersistence {
 
 		} catch (SQLException se) {
 			System.err.println(se.getMessage());
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		return results;
@@ -371,6 +388,7 @@ public class JdbcPersistence {
 			String insertRuleQuery = "INSERT INTO android.rules (id_rule, id_step, premises, consequence, confidence) VALUES "
 					+ "(?, ?, ?, ?, ?)";
 
+			Connection connection = Connection_DB.getConnection();
 			PreparedStatement preparedStatement = connection
 					.prepareStatement(insertRuleQuery);
 
@@ -386,6 +404,9 @@ public class JdbcPersistence {
 			preparedStatement.close();
 		} catch (SQLException se) {
 			System.err.println(se.getMessage());
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		for (int i = 1; i < r_entry.size(); i++) {
 			try {
@@ -394,6 +415,7 @@ public class JdbcPersistence {
 					String insertRuleQuery2 = "INSERT INTO android.rules (id_rule, id_step, premises, consequence, confidence) VALUES "
 							+ "(?, ?, ?, ?, ?)";
 
+					Connection connection = Connection_DB.getConnection();
 					PreparedStatement preparedStatement2 = connection
 							.prepareStatement(insertRuleQuery2);
 
@@ -415,6 +437,7 @@ public class JdbcPersistence {
 					String insertRuleQuery2 = "INSERT INTO android.rules (id_rule, id_step, premises) VALUES "
 							+ "(?, ?, ?)";
 
+					Connection connection = Connection_DB.getConnection();
 					PreparedStatement preparedStatement2 = connection
 							.prepareStatement(insertRuleQuery2);
 
@@ -429,6 +452,9 @@ public class JdbcPersistence {
 				}
 			} catch (SQLException se) {
 				System.err.println(se.getMessage());
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 
@@ -452,6 +478,7 @@ public class JdbcPersistence {
 					+ "ON ST_Intersects(pl.walls, t.walls) where  t.name_place like 'A4C%' and pl.name_place='"
 					+ name_place + "' limit 1;";
 
+			Connection connection = Connection_DB.getConnection();
 			PreparedStatement preparedStatement = connection
 					.prepareStatement(query);
 
@@ -464,6 +491,9 @@ public class JdbcPersistence {
 
 		} catch (SQLException se) {
 			System.err.println(se.getMessage());
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 //		System.out.println(results);
@@ -498,6 +528,7 @@ public class JdbcPersistence {
 						+ " ," + y1 + ")," + " ST_MakePoint(" + x2 + "," + y2
 						+ "))" + " , pl.area)='true'" + " ORDER BY x ASC;";
 
+				Connection connection = Connection_DB.getConnection();
 				PreparedStatement preparedStatement = connection
 						.prepareStatement(query);
 
@@ -524,6 +555,7 @@ public class JdbcPersistence {
 						+ " ," + y1 + ")," + " ST_MakePoint(" + x2 + "," + y2
 						+ "))" + " , pl.area)='true'" + " ORDER BY x DESC;";
 
+				Connection connection = Connection_DB.getConnection();
 				PreparedStatement preparedStatement = connection
 						.prepareStatement(query);
 
@@ -543,6 +575,9 @@ public class JdbcPersistence {
 			}
 		} catch (SQLException se) {
 			System.err.println(se.getMessage());
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		for (int i = 0; i < path.size(); i++) {
@@ -582,6 +617,7 @@ public class JdbcPersistence {
 						+ " ," + y1 + ")," + " ST_MakePoint(" + x2 + "," + y2
 						+ "))" + " , pl.area)='true' and pl.name_place like 'A4C%'" + " ORDER BY x ASC;";
 
+				Connection connection = Connection_DB.getConnection();
 				PreparedStatement preparedStatement = connection
 						.prepareStatement(query);
 
@@ -608,6 +644,7 @@ public class JdbcPersistence {
 						+ " ," + y1 + ")," + " ST_MakePoint(" + x2 + "," + y2
 						+ "))" + " , pl.area)='true' and pl.name_place like 'A4C%'" + " ORDER BY x DESC;";
 
+				Connection connection = Connection_DB.getConnection();
 				PreparedStatement preparedStatement = connection
 						.prepareStatement(query);
 
@@ -627,6 +664,9 @@ public class JdbcPersistence {
 			}
 		} catch (SQLException se) {
 			System.err.println(se.getMessage());
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		for (int i = 0; i < path.size(); i++) {
@@ -650,6 +690,7 @@ public class JdbcPersistence {
 			String query = "select ST_X(ST_AsText(ST_Centroid(pl.area))) AS X , ST_Y(ST_AsText(ST_Centroid(pl.area))) as Y from android.places as pl where pl.name_place='"
 					+ name_place + "';";
 
+			Connection connection = Connection_DB.getConnection();
 			PreparedStatement preparedStatement = connection
 					.prepareStatement(query);
 
@@ -662,6 +703,9 @@ public class JdbcPersistence {
 
 		} catch (SQLException se) {
 			System.err.println(se.getMessage());
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		return results;
@@ -682,6 +726,7 @@ public class JdbcPersistence {
 					" FROM android.places AS pl" +
 					" WHERE ST_Within('POINT("+ x +" "+ y+")', pl.area)='true';";
 
+			Connection connection = Connection_DB.getConnection();
 			PreparedStatement preparedStatement = connection.prepareStatement(query);
 
 			ResultSet result = preparedStatement.executeQuery();
@@ -694,6 +739,9 @@ public class JdbcPersistence {
 
 		} catch (SQLException se) {
 			System.err.println(se.getMessage());
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		return place;
