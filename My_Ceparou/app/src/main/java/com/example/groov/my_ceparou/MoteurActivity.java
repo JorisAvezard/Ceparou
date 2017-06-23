@@ -79,6 +79,7 @@ public class MoteurActivity extends FragmentActivity {
     private IAResourceManager mResourceManager;
     private IATask<IAFloorPlan> mFetchFloorPlanTask;
     private Target mLoadTarget;
+    private IALocationRequest iaRequest = IALocationRequest.create();
     private boolean mCameraPositionNeedsUpdating = true; // update on first location
 
     IALocationListener mLocationListener = new IALocationListener() {
@@ -216,8 +217,10 @@ public class MoteurActivity extends FragmentActivity {
                     .getMap();
             mMap.setMyLocationEnabled(true);
         }
-        // start receiving location updates & monitor region changes
-        mLocationManager.requestLocationUpdates(IALocationRequest.create(), mLocationListener);
+        // start receiving location updates & monitor region change
+        iaRequest.setFastestInterval(10000);
+        mLocationManager.requestLocationUpdates(iaRequest, mLocationListener);
+
         mLocationManager.registerRegionListener(mRegionListener);
     }
 
@@ -557,16 +560,17 @@ public class MoteurActivity extends FragmentActivity {
         protected void onPostExecute(String result) {
             id_place = result;
             System.out.println("id_place : " + result);
-            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-            String date = String.valueOf(timestamp);
-            if(last_idPlace.equals(id_place)) {
+            System.out.println("last_idPlace : " + last_idPlace);
+            //Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            //String date = String.valueOf(timestamp);
+            if(!last_idPlace.equals(id_place)) {
                 System.out.println("Nouvelle entrée dans Paths !");
                 MyAsynTaskNewPath newPath = new MyAsynTaskNewPath();
                 System.out.println("id_path : " + id_path + ", id_coord : " + id_coord +
                         ", latitude : " + String.valueOf(latitude) + ", longitude : " + String.valueOf(longitude) +
-                        ", date : " + date + ", id_client : " + String.valueOf(id_client) +
+                        ", id_client : " + String.valueOf(id_client) +
                         ", building_id : " + building_id);
-                newPath.execute(id_path, id_coord, String.valueOf(latitude), String.valueOf(longitude), date, String.valueOf(id_client), building_id);
+                newPath.execute(id_path, id_coord, String.valueOf(latitude), String.valueOf(longitude), String.valueOf(id_client), building_id);
             }
             else {
                 System.out.println("Pas de nouveau Paths cette fois !");
@@ -583,13 +587,12 @@ public class MoteurActivity extends FragmentActivity {
             String idCoord = arg0[1];
             String lati = arg0[2];
             String longi = arg0[3];
-            String date = arg0[4];
-            String idUser = arg0[5];
-            String idBuilding = arg0[6];
+            String idUser = arg0[4];
+            String idBuilding = arg0[5];
             try {
                 //URL POUR afficher les building
                 URL url = new URL("http://192.168.137.1:8080/Ceparou/service/newPath/" + idPath + "/"
-                        + idCoord + "/" + lati + "/" + longi + "/" + date + "/" + idUser + "/" + idBuilding);
+                        + idCoord + "/" + lati + "/" + longi + "/" + idUser + "/" + idBuilding);
 
                 InputStream inputStream = sendRequest.sendRequest(url);
 
@@ -639,7 +642,7 @@ public class MoteurActivity extends FragmentActivity {
 
         @Override
         protected void onPostExecute(ArrayList result) {
-            //QUE FAIT-ON DU RESULTAT ?
+            
         }
     }
 }
