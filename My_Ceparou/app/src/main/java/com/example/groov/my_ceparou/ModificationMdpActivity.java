@@ -17,7 +17,10 @@ public class ModificationMdpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modification_mdp);
 
-        Button bouton_modification_mdp = (Button) findViewById(R.id.bouton_page_modification_mdp);
+        Bundle extras = getIntent().getExtras();
+        final int id_client = extras.getInt("id_client");
+
+        Button bouton_modification_mdp = (Button) findViewById(R.id.bouton_suppression_compte);
         bouton_modification_mdp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -31,7 +34,9 @@ public class ModificationMdpActivity extends AppCompatActivity {
                 //Vérifier si ancien mdp correspond à celui dans BDD
                     //Vérifier si le mdp confirmation correspond au nouveau
                         //Requête à la BDD pour changement
-                startActivity(new Intent(ModificationMdpActivity.this, ModificationMdpActivity.class));
+                Intent intent = new Intent(ModificationMdpActivity.this, ModificationMdpActivity.class);
+                intent.putExtra("id_client", id_client);
+                startActivity(intent);
             }
         });
 
@@ -39,7 +44,9 @@ public class ModificationMdpActivity extends AppCompatActivity {
         bouton_page_parametres_from_modif_mdp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ModificationMdpActivity.this, ParametresActivity.class));
+                Intent intent = new Intent(ModificationMdpActivity.this, ParametresActivity.class);
+                intent.putExtra("id_client", id_client);
+                startActivity(intent);
             }
         });
     }

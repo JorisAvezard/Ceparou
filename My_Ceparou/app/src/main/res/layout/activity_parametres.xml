@@ -7,7 +7,6 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".MainActivity"
     android:clickable="false">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -29,7 +28,7 @@
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Une première information"
+            android:text="Nom :"
             android:textStyle="bold"
             android:textColor="#1a2094"
             android:gravity="left"
@@ -38,14 +37,14 @@
             android:id="@+id/textView_info_1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Affichage de la première information"
+            android:text=""
             android:textStyle="bold"
             android:gravity="left"
             />
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Encore une autre "
+            android:text="Prénom :"
             android:textStyle="bold"
             android:textColor="#1a2094"
             android:gravity="left"
@@ -54,7 +53,7 @@
             android:id="@+id/textView_info_2"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Affichage d'une autre information"
+            android:text=""
             android:textStyle="bold"
             android:gravity="left"
             />
@@ -80,7 +79,7 @@
             android:id="@+id/textView_mail"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="récupérer et écrire le mail"
+            android:text=""
             android:textStyle="bold"
             android:gravity="left"
             />
@@ -94,32 +93,7 @@
             android:textStyle="italic"
             />
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="N° téléphone pour récupération mdp"
-            android:textStyle="bold"
-            android:textColor="#1a2094"
-            android:gravity="left"
-            />
 
-        <TextView
-            android:id="@+id/textView_num"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="récupérer et écrire le n°"
-            android:textStyle="bold"
-            android:gravity="left"
-            />
-        <Button
-            android:id="@+id/bouton_page_modification_num"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Modifier mon N°"
-            android:layout_gravity="right"
-            android:textSize="10dp"
-            android:textStyle="italic"
-            />
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

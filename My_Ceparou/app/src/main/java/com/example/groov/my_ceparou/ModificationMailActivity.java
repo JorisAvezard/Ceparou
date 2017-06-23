@@ -17,6 +17,9 @@ public class ModificationMailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modification_mail);
 
+        Bundle extras = getIntent().getExtras();
+        final int id_client = extras.getInt("id_client");
+
         Button bouton_modification_mail = (Button) findViewById(R.id.bouton_modification_mail);
         bouton_modification_mail.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -30,7 +33,9 @@ public class ModificationMailActivity extends AppCompatActivity {
                     //Récupérer la nouvelle adresse
                     //Vérifier si pas déjà utilisée
                         //Requête à la BDD pour changement
-                startActivity(new Intent(ModificationMailActivity.this, ModificationMailActivity.class));
+                Intent intent = new Intent(ModificationMailActivity.this, ModificationMailActivity.class);
+                intent.putExtra("id_client", id_client);
+                startActivity(intent);
             }
         });
 
@@ -38,7 +43,9 @@ public class ModificationMailActivity extends AppCompatActivity {
         bouton_page_parametres_from_modif_mail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ModificationMailActivity.this, ParametresActivity.class));
+                Intent intent = new Intent(ModificationMailActivity.this, ParametresActivity.class);
+                intent.putExtra("id_client", id_client);
+                startActivity(intent);
             }
         });
     }

@@ -30,24 +30,39 @@
             android:label="IALocationService"
             android:exported="false"></service>
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:windowSoftInputMode="stateUnchanged">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AdminActivity"/>
-        <activity android:name=".GMClientActivity"/>
-        <activity android:name=".SavePlacesActivity"/>
-        <activity android:name=".GMActivity"/>
-        <activity android:name=".MoteurActivity"/>
-        <activity android:name=".OublisActivity"/>
-        <activity android:name=".InscriptionActivity"/>
-        <activity android:name=".ParametresActivity"/>
-        <activity android:name=".ModificationMailActivity"/>
-        <activity android:name=".ModificationNumActivity"/>
-        <activity android:name=".ModificationMdpActivity"/>
+
+        <activity android:name=".AdminActivity"
+            android:windowSoftInputMode="stateUnchanged"/>
+        <activity android:name=".GMClientActivity"
+            android:windowSoftInputMode="stateUnchanged"/>
+        <activity android:name=".SavePlacesActivity"
+            android:windowSoftInputMode="stateUnchanged"/>
+        <activity android:name=".GMActivity"
+            android:windowSoftInputMode="stateUnchanged"/>
+        <activity android:name=".MoteurActivity"
+            android:windowSoftInputMode="stateUnchanged"/>
+        <activity android:name=".OublisActivity"
+            android:windowSoftInputMode="stateUnchanged"/>
+        <activity android:name=".InscriptionActivity"
+            android:windowSoftInputMode="stateUnchanged"/>
+        <activity android:name=".ParametresActivity"
+            android:windowSoftInputMode="stateUnchanged"/>
+        <activity android:name=".ModificationMailActivity"
+            android:windowSoftInputMode="stateUnchanged"/>
+        <activity android:name=".ModificationMdpActivity"
+            android:windowSoftInputMode="stateUnchanged"/>
+        <activity android:name=".SuppressionCompteActivity"
+            android:windowSoftInputMode="stateUnchanged"/>
+
+        <!-- POP-UP-->
         <activity android:name=".PopOublisActivity"
             android:theme="@style/AppTheme.CustomTheme">
         </activity>
@@ -72,7 +87,6 @@
         <activity android:name=".PopGMActivity"
             android:theme="@style/AppTheme.CustomTheme">
         </activity>
-        <activity android:name=".SuppressionCompteActivity"/>
 
     </application>
 

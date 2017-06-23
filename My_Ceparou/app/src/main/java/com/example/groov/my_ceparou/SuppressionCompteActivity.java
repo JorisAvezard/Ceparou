@@ -17,6 +17,9 @@ public class SuppressionCompteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_suppression_compte);
 
+        Bundle extras = getIntent().getExtras();
+        final int id_client = extras.getInt("id_client");
+
         Button bouton_suppression_compte = (Button) findViewById(R.id.bouton_suppression_compte);
         bouton_suppression_compte.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -32,7 +35,9 @@ public class SuppressionCompteActivity extends AppCompatActivity {
                 //Vérifier si les mdp sont identique si oui aller voir dans bdd s'ils correspondent
                 //Vérifier si le mdp correspond
                 //Requête à la BDD pour changement
-                startActivity(new Intent(SuppressionCompteActivity.this, SuppressionCompteActivity.class));
+                Intent intent = new Intent(SuppressionCompteActivity.this, SuppressionCompteActivity.class);
+                intent.putExtra("id_client", id_client);
+                startActivity(intent);
             }
         });
 
@@ -40,7 +45,9 @@ public class SuppressionCompteActivity extends AppCompatActivity {
         bouton_page_parametres_from_suppression_compte.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(SuppressionCompteActivity.this, ParametresActivity.class));
+                Intent intent = new Intent(SuppressionCompteActivity.this, ParametresActivity.class);
+                intent.putExtra("id_client", id_client);
+                startActivity(intent);
             }
         });
     }
